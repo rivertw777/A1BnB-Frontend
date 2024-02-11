@@ -1,7 +1,7 @@
 // // 메인 화면 
 import { Route, Routes } from 'react-router-dom';
 import './bootstrap.min.css' // bootstrap
-import Layout from './components/Layout';
+import AppLayout from './components/AppLayout';
 import Login from './pages/users/Login';
 import Logout from './pages/users/Logout';
 import Home from './pages/Home';
@@ -15,7 +15,7 @@ import LoginRequiredRoute from './utils/LoginRequiredRoute';
 
 function App() {
   return (
-    <Layout>
+    <AppLayout>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/users" element={<LoginRequiredRoute><User /></LoginRequiredRoute>} />
@@ -27,7 +27,7 @@ function App() {
         <Route path= "/users/regist/uploaded" element= {<Uploaded />} />
         <Route path= "/room" element ={<Room />} />
       </Routes>
-    </Layout>
+    </AppLayout>
   )
 }
 

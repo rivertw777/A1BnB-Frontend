@@ -1,0 +1,41 @@
+.app {
+    display: grid;
+    gap: 1rem;
+    grid-template-areas:
+      "header header header"
+      "contents contents contents"
+      "footer footer footer";
+    width: 1300px;
+    max-width: 100%;
+    margin: 10px auto;
+  }
+  
+  .header {
+    display: grid;
+    grid-template-columns: 0.33fr auto 0.35fr;
+    justify-content: space-between;
+    align-items: center;
+    grid-area: header;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+  }
+  
+  .page-title {
+  }
+  
+  .search {
+  }
+  
+  .topnav {
+    justify-self: end;
+  }
+  
+  .contents {
+    grid-area: contents;
+  }
+  
+  .footer {
+    grid-area: footer;
+    justify-self: center;
+  }
+  

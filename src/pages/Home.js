@@ -1,54 +1,10 @@
-import { useSearchParams, useEffect, useState } from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
-import axios from 'axios';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import AppLayout from "../components/AppLayout";
+import PostList from "../components/posts/PostList";
 
 function Home() {
-    const navigate = useNavigate();
-    const [imageList, setImageList] = useState([]);
-    // const [searchParams] = useSearchParams();
-    useEffect(() => {
-        fetchData();
-    }, []);
-    const fetchData = async () => {
-        try {
-            // const postid = searchParams.get('postid');
-            const response = await axios.get(`localhost:8080/`);
-            const latestData = response.data; // 최신 8개 데이터 배열
-
-            setImageList(latestData); // 이미지 리스트에 최신 데이터 할당
-        } catch (error) {
-            console.error('Error fetching images:', error);
-        }
-    };
-    const handleCardClick = (postId) => {
-        navigate(`/room?postid=${postId}`);
-    };
     return (
-        <div>
-            <h1 style={{ textAlign: 'center', margin: '30px'}}>A1BnB를 이용해 보세요</h1>
-
-            <Row sx={1} md={4} className="g-4">
-                {imageList.map((info, idx) => (
-                    <Col key={idx}>
-                        <Card style={{ width: '18rem', borderRadius: '10px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)' }}>
-                        <Card.Img variant="top" src={`localhost:8080/image`} style={{ borderRadius: '10px 10px 0 0' }} />
-                        <Card.Body>
-                            <Card.Title style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{info.title}</Card.Title>
-                            <Button
-                            variant="primary"
-                            onClick={() => handleCardClick(info.postId)}
-                            style={{ backgroundColor: 'f9f9f9', borderColor: '#f9f9f9' }}>
-                            이동
-                            </Button>
-                        </Card.Body>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
+        <div>  
+            <PostList />
         </div>
     );
 }
