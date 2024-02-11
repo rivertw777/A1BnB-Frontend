@@ -42,7 +42,7 @@ function AppLayout({ children }) {
         </div>
       </div>
       <div className="contents">{children}</div>
-      <div className="footer">&copy; 2023. Taewon Company.</div>
+      <div className="footer">&copy; 2024. Taewon Company.</div>
     </div>
   );
 }
