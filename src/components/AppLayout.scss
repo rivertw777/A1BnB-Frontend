@@ -5,14 +5,14 @@
       "header header header"
       "contents contents contents"
       "footer footer footer";
-    width: 1450px;
+    width: 85%;
     max-width: 100%;
     margin: 10px auto;
   }
   
   .header {
     display: grid;
-    grid-template-columns: 0.33fr auto 0.35fr;
+    grid-template-columns: 0.40fr auto 0.40fr;
     justify-content: space-between;
     align-items: center;
     grid-area: header;
@@ -24,6 +24,8 @@
   }
   
   .search {
+ /* .header 요소 내에서의 위치를 결정하기 위해 absolute로 설정합니다. */
+    right: 100px;
   }
   
   .topnav {
