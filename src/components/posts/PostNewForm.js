@@ -22,7 +22,7 @@ export default function PostNewForm() {
   const [fieldErrors, setFieldErrors] = useState({});
 
   const handleUploadChange = ({ fileList }) => {
-    if (fileList.length <= 6) {
+    if (fileList.length <= 5) {
       const duplicatePhotos = fileList.filter(
         (file, index, self) =>
           index !== self.findIndex((f) => f.name === file.name)
@@ -54,28 +54,27 @@ export default function PostNewForm() {
   const handleFinish = async (fieldValues) => {
     const {
       location,
-      photo: { fileList }
+      photos: { fileList }
     } = fieldValues;
 
     const formData = new FormData();
     formData.append("location", location);
     fileList.forEach((file) => {
-      formData.append("photo", file.originFileObj);
+      formData.append("photos", file.originFileObj);
     });
 
-    const headers = { Authorization: `JWT ${jwtToken}` };
+    const headers = { Authorization: `Bearer ${jwtToken}` };
     try {
-      const response = await axiosInstance.post("/api/posts/", formData, {
+      const response = await axiosInstance.post("/api/posts", formData, {
         headers
       });
-      console.log("success response :", response);
 
       notification.open({
         message: "게시물 작성 완료",
         icon: <SmileOutlined style={{ color: "#108ee9" }} />
       });
 
-      navigate("/users/regist/result");
+      navigate("/");
       window.location.reload(); // 페이지 새로고침
     } catch (error) {
       if (error.response) {
@@ -111,8 +110,8 @@ export default function PostNewForm() {
       </Form.Item>
 
       <Form.Item
-        label="Photo"
-        name="photo"
+        label="Photos"
+        name="photos"
         rules={[{ required: true, message: "사진을 입력해주세요." }]}
         hasFeedback
         {...fieldErrors.photo}
@@ -125,7 +124,7 @@ export default function PostNewForm() {
           onPreview={handlePreviewPhoto}
           multiple // 여러 장의 사진을 선택할 수 있도록 multiple 속성 추가
         >
-          {fileList.length > -1 && fileList.length < 6 ? (
+          {fileList.length > -1 && fileList.length < 5 ? (
             <div>
               <PlusOutlined />
               <div className="ant-upload-text">Upload</div>

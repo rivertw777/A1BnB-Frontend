@@ -4,7 +4,6 @@ import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation} from "react-router-dom";
 import { axiosInstance } from "../../api";
 import { useAppContext, setToken } from "../../store";
-import { parseErrorMessages } from "../../utils/forms";
 import "./Login.scss";
 
 export default function Login() {
@@ -75,7 +74,6 @@ export default function Login() {
         <Form
           {...layout}
           onFinish={onFinish}
-          //   onFinishFailed={onFinishFailed}
           autoComplete={"false"}
         >
           <Form.Item

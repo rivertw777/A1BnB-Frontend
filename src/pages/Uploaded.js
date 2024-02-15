@@ -1,12 +1,6 @@
-import Button from 'react-bootstrap/Button';
-import React, { Component, useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
-import Image from 'react-bootstrap/Image'
-import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import { useLocation, useNavigate } from "react-router-dom";
-
 
 const serverUrl = `localhost:8080/user/regist/uploaded`;
 

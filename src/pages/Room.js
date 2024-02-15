@@ -4,11 +4,7 @@ import Image from 'react-bootstrap/Image';
 import { useNavigate, useState, useEffect } from "react";
 import { useSearchParams } from 'react-router-dom'; 
 import axios from 'axios';
-import { Form, Input, Button, notification } from "antd";
-import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
 import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 
 const serverUrl = `localhost:8080/room`;
 
