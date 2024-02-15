@@ -27,7 +27,7 @@ export default function PostNewForm() {
         (file, index, self) =>
           index !== self.findIndex((f) => f.name === file.name)
       );
-  
+
       if (duplicatePhotos.length > 0) {
         notification.warning({
           message: "중복된 사진",
@@ -56,6 +56,16 @@ export default function PostNewForm() {
       location,
       photos: { fileList }
     } = fieldValues;
+
+    // 사진 개수가 5장 미만인 경우 경고 메시지 표시 후 함수 종료
+  if (fileList.length < 5) {
+    notification.warning({
+      message: "사진 개수 부족",
+      description: "사진은 최소 5장 이상 업로드해야 합니다.",
+      icon: <FrownOutlined style={{ color: "#ff3333" }} />
+    });
+    return;
+  }
 
     const formData = new FormData();
     formData.append("location", location);
