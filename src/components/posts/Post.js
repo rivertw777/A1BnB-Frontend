@@ -3,11 +3,8 @@ import { Card } from "antd";
 
 
 function Post({ post }) {
-
+  
   const {  photoUrl, location } = post;
-
-  console.log(post);
-
 
   return (
     <div className="post" style={{ display: "flex", justifyContent: "center", marginTop: "50px", marginBottom: "50px" }}>

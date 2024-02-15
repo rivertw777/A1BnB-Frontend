@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Card, Form, Input, Button, notification } from "antd";
 import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,7 @@ export default function Signup() {
       await axiosInstance.post("/api/users", data);
 
       notification.open({
-        message: "회원가입 성공",
+        message: "회원가입 완료",
         description: "로그인 페이지로 이동합니다.",
         icon: <SmileOutlined style={{ color: "#108ee9" }} />,
       });
@@ -57,7 +57,7 @@ export default function Signup() {
 
   return (
     <div className="Signup">
-      <Card title="회원가입">
+      <Card title={<span style={{ color: '#FF5A5F' }}>회원가입</span>}>
         <Form {...layout} onFinish={onFinish}>
           <Form.Item
             label="Username"

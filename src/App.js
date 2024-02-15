@@ -7,7 +7,7 @@ import Logout from './pages/users/Logout';
 import Home from './pages/Home';
 import Signup from './pages/users/Signup';
 import User from './pages/User';
-import BecomeHost from './pages/BecomeHost';
+import BecomeHost from './pages/posts/BecomeHost';
 import Ammenities from './pages/Ammenities';
 import Room from './pages/Room';
 import Uploaded from './pages/Uploaded';

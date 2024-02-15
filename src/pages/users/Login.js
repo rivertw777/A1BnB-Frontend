@@ -33,21 +33,36 @@ export default function Login() {
           dispatch(setToken(jwtToken));
       
           notification.open({
-            message: "로그인 성공",
+            message: "로그인 완료",
             icon: <SmileOutlined style={{ color: "#108ee9" }} />
           });
   
           navigate(loginRedirectUrl);
         } catch (error) {
           if (error.response) {
+            const {status, data:{errorMessage}} = error.response
             notification.open({
               message: "로그인 실패",
-              description: "아이디/암호를 확인해주세요.",
+              description: errorMessage,
               icon: <FrownOutlined style={{ color: "#ff3333" }} />
             });
-  
-            const { data: fieldsErrorMessages } = error.response;
-            setFieldErrors(parseErrorMessages(fieldsErrorMessages));
+
+            setFieldErrors((prevErrors) => {
+              const updatedErrors = {};
+    
+              for (const [fieldName, errors] of Object.entries(prevErrors)) {
+                const errorMessage = errors instanceof Array ? errors.join(" ") : errors;
+                updatedErrors[fieldName] = {
+                  validateStatus: "error",
+                  help: errorMessage,
+                };
+              }
+    
+              return {
+                ...prevErrors,
+                ...updatedErrors,
+              };
+            });
           }
         }
       }
@@ -56,7 +71,7 @@ export default function Login() {
   
     return (
       <div className="Login">
-      <Card title="로그인">
+      <Card title={<span style={{ color: '#FF5A5F' }}>로그인</span>}>
         <Form
           {...layout}
           onFinish={onFinish}
