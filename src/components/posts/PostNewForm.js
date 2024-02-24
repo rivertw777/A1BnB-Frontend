@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form, Modal, Upload, notification, Spin } from "antd";
-import { FrownOutlined, PlusOutlined, SmileOutlined } from "@ant-design/icons";
+import { FrownOutlined, PlusOutlined } from "@ant-design/icons";
 import { useAppContext } from "../../store";
 import { getBase64FromFile } from "../../utils/base64";
 import { parseErrorMessages } from "../../utils/forms";
@@ -54,7 +54,6 @@ export default function PostNewForm() {
 
   const handleFinish = async (fieldValues) => {
     const {
-      location,
       photos: { fileList }
     } = fieldValues;
 
