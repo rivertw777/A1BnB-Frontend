@@ -58,11 +58,11 @@ export default function UploadPhotoForm() {
       photos: { fileList }
     } = fieldValues;
 
-    // 사진 개수가 5장 미만인 경우 경고 메시지 표시 후 함수 종료
-    if (fileList.length < 1) {
+    // 사진 개수가 4장 미만인 경우 경고 메시지 표시 후 함수 종료
+    if (fileList.length < 4) {
       notification.warning({
         message: "사진 개수 부족",
-        description: "사진은 최소 1장을 업로드해야 합니다.",
+        description: "사진은 최소 4장을 업로드해야 합니다.",
         icon: <FrownOutlined style={{ color: "#ff3333" }} />
       });
       return;

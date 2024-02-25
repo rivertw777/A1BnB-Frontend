@@ -51,7 +51,7 @@ function PostList() {
         ))}
       </Row>
       {totalPages > 1 && (
-        <div style={{ textAlign: 'center', marginTop: '16px' }}>
+        <div style={{ textAlign: 'center', marginTop: '40px' }}>
           <Pagination
             current={currentPage}
             total={totalPages}
