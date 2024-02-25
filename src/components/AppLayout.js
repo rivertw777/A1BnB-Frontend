@@ -1,8 +1,8 @@
+// 전체 레이아웃
 import React from "react";
 import { Input, Button } from "antd";
 import "./AppLayout.scss";
 import { useAppContext } from "../store";
-import LogoImage from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 
 function AppLayout({ children }) {
@@ -16,9 +16,18 @@ function AppLayout({ children }) {
     <div className="app">
       <div className="header">
         <h1 className="page-title">
-          <a href="/">
-            <img src={LogoImage} alt="logo" />
-          </a>
+          <Button
+            type="link"
+            onClick={() => navigate("/")}
+            style={{
+              color: "#7788E8",
+              fontFamily: "Arial",
+              fontWeight: "bold",
+              fontSize: "30px"
+            }}
+          >
+            A1BnB
+          </Button>
         </h1>
         <div className="search">
           <Input.Search />
@@ -28,9 +37,10 @@ function AppLayout({ children }) {
             type="link"
             onClick={() => navigate("users/regist")}
             style={{
-              color: "#FF5A5F",
+              color: "#7788E8",
               fontFamily: "Arial",
               fontWeight: "bold",
+              fontSize: "18px"
             }}
           >
             당신의 공간을 A1BnB하세요!
@@ -39,10 +49,10 @@ function AppLayout({ children }) {
             type="link"
             onClick={() => navigate("users")}
             style={{
-              color: "#FF5A5F",
+              color: "#7788E8",
               fontFamily: "Arial",
               fontWeight: "bold",
-              fontSize: "13.5px"
+              fontSize: "15px"
             }}
           >
             My Page
@@ -52,10 +62,10 @@ function AppLayout({ children }) {
               type="link"
               onClick={() => navigate("users/logout")}
               style={{
-                color: "#FF5A5F",
+                color: "#7788E8",
                 fontFamily: "Arial",
                 fontWeight: "bold",
-                fontSize: "13.5px"
+                fontSize: "15px"
               }}
             >
               Logout
@@ -65,10 +75,10 @@ function AppLayout({ children }) {
               type="link"
               onClick={() => navigate("users/login")}
               style={{
-                color: "#FF5A5F",
+                color: "#7788E8",
                 fontFamily: "Arial",
                 fontWeight: "bold",
-                fontSize: "13.5px"
+                fontSize: "15px"
               }}
             >
               Login

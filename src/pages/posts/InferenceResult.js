@@ -1,8 +1,11 @@
+// 사진 추론 결과 페이지
 import React, { useEffect, useState } from "react";
 import Result from "../../components/posts/Result";
 import { useAppContext } from "../../store";
 import { useLocation } from 'react-router-dom';
 import { axiosInstance } from "../../api";
+import { Button } from "antd";
+import "./InferenceResult.scss";
 
 function InferenceResult() {
     const {
@@ -30,14 +33,20 @@ function InferenceResult() {
         fetchData();
     }, []);
 
-    console.log(resultList);
-
     return (
         <div>
-          {resultList &&
-            resultList.map(result => (
-              <Result result={result} key={result.resultId} />
-            ))}
+          <h3 style={{ textAlign: "center", fontSize: "2.5em", marginBottom: "60px", color: '#666666' }}>분석 완료!!</h3>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-evenly", gap: "20px" }}>
+            {resultList &&
+              resultList.map(result => (
+                <Result result={result} key={result.resultId} />
+              ))}
+          </div>
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "20px", marginBottom: "40px" }}>
+            <Button className="custom-button" htmlType="submit" style={{ height: "70px", fontSize: "30px" }}>
+                Register Your Property
+            </Button>
+          </div>
         </div>
     );
 }

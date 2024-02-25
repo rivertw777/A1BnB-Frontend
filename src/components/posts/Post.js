@@ -1,3 +1,4 @@
+// 게시물 
 import React from "react";
 import { Card } from "antd";
 

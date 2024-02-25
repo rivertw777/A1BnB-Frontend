@@ -1,3 +1,4 @@
+// 로그인 페이지
 import React, { useState} from "react";
 import { Card, Form, Input, Button, notification } from "antd";
 import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
@@ -70,7 +71,7 @@ export default function Login() {
   
     return (
       <div className="Login">
-      <Card title={<span style={{ color: '#FF5A5F' }}>로그인</span>}>
+      <Card title={<span style={{ color: '#7788E8' }}>로그인</span>}>
         <Form
           {...layout}
           onFinish={onFinish}
@@ -100,13 +101,13 @@ export default function Login() {
           </Form.Item>
   
           <Form.Item {...tailLayout}>
-            <Button type="primary" htmlType="submit">
+            <Button htmlType="submit">
               Submit
             </Button>
           </Form.Item>
   
           <Form.Item {...tailLayout}>
-            <Button type="primary">
+            <Button>
               <a href="/users/signup">Signup</a>
             </Button>
           </Form.Item>     

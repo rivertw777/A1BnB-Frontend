@@ -1,3 +1,4 @@
+// 사진 등록 폼
 import React, { useState } from "react";
 import { Button, Form, Modal, Upload, notification, Spin } from "antd";
 import { FrownOutlined, PlusOutlined } from "@ant-design/icons";
@@ -7,7 +8,7 @@ import { parseErrorMessages } from "../../utils/forms";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api";
 
-export default function PostNewForm() {
+export default function UploadForm() {
   const {
     store: { jwtToken }
   } = useAppContext();
@@ -135,7 +136,7 @@ export default function PostNewForm() {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 8 }}>
-          <Button type="primary" htmlType="submit">
+          <Button htmlType="submit">
             Submit
           </Button>
         </Form.Item>

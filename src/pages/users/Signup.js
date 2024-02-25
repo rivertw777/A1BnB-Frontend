@@ -1,3 +1,4 @@
+// 회원가입 페이지
 import React, { useState } from "react";
 import { Card, Form, Input, Button, notification } from "antd";
 import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
@@ -57,7 +58,7 @@ export default function Signup() {
 
   return (
     <div className="Signup">
-      <Card title={<span style={{ color: '#FF5A5F' }}>회원가입</span>}>
+      <Card title={<span style={{ color: '#7788E8' }}>회원가입</span>}>
         <Form {...layout} onFinish={onFinish}>
           <Form.Item
             label="Username"
@@ -82,7 +83,7 @@ export default function Signup() {
           </Form.Item>
 
           <Form.Item {...tailLayout}>
-            <Button type="primary" htmlType="submit">
+            <Button htmlType="submit">
               Submit
             </Button>
           </Form.Item>
