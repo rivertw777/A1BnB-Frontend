@@ -58,7 +58,7 @@ export default function Signup() {
 
   return (
     <div className="Signup">
-      <Card title={<span style={{ color: '#7788E8' }}>회원가입</span>}>
+      <Card title={<span style={{ color: '#666666' }}>회원가입</span>}>
         <Form {...layout} onFinish={onFinish}>
           <Form.Item
             label="Username"

@@ -1,3 +1,4 @@
+// 로그아웃 페이지
 import React, { useEffect } from "react";
 import { useAppContext, deleteToken } from "../../store";
 import { useNavigate } from "react-router-dom";

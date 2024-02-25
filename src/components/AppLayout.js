@@ -35,7 +35,7 @@ function AppLayout({ children }) {
         <div className="topnav">
           <Button
             type="link"
-            onClick={() => navigate("users/regist")}
+            onClick={() => navigate("posts/upload")}
             style={{
               color: "#7788E8",
               fontFamily: "Arial",

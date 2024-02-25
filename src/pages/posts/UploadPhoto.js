@@ -1,7 +1,7 @@
 // 숙소 사진 등록 페이지
 import React from "react";
 import { Card } from "antd";
-import UploadForm from "../../components/posts/UploadForm";
+import UploadPhotoForm from "../../components/posts/UploadPhotoForm";
 import "./UploadPhoto.scss";
 
 export default function UploadPhoto() {
@@ -13,7 +13,7 @@ export default function UploadPhoto() {
         }
         style={{ textAlign: 'center' }} // 이 부분을 추가
       >
-        <UploadForm />
+        <UploadPhotoForm />
       </Card>
     </div>
   );

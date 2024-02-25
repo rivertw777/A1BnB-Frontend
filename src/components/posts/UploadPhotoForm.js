@@ -8,7 +8,7 @@ import { parseErrorMessages } from "../../utils/forms";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api";
 
-export default function UploadForm() {
+export default function UploadPhotoForm() {
   const {
     store: { jwtToken }
   } = useAppContext();
@@ -59,10 +59,10 @@ export default function UploadForm() {
     } = fieldValues;
 
     // 사진 개수가 5장 미만인 경우 경고 메시지 표시 후 함수 종료
-    if (fileList.length < 2) {
+    if (fileList.length < 1) {
       notification.warning({
         message: "사진 개수 부족",
-        description: "사진은 최소 2장을 업로드해야 합니다.",
+        description: "사진은 최소 1장을 업로드해야 합니다.",
         icon: <FrownOutlined style={{ color: "#ff3333" }} />
       });
       return;
@@ -82,9 +82,8 @@ export default function UploadForm() {
 
       // 서버에서 반환된 photoIdList를 받아오기
       const photoIdList = response.data;
-      navigate("/users/regist/result", { state: { photoIdList } });
+      navigate("/posts/result", { state: { photoIdList } });
       
-      //window.location.reload(); // 페이지 새로고침
     } catch (error) {
       if (error.response) {
         const { status, data: fieldsErrorMessages } = error.response;

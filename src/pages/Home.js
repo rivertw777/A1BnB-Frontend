@@ -56,8 +56,9 @@ function Home() {
           필터
         </Button>
       </div>
-      <PostList />
-
+      <div style={{ marginBottom: "30px" }}>
+        <PostList />
+      </div>
       <Modal
         title="검색 필터"
         visible={modalVisible}

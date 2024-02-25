@@ -5,8 +5,6 @@ import { Card } from "antd";
 function Result({ result }) {
   const { roomType, detectedUrl, ammenityTypes } = result;
 
-  console.log(ammenityTypes);
-
   return (
     <div className="post" style={{ width: 'calc(40% - 20px)', marginBottom: "50px" }}>
       <Card 

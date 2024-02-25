@@ -17,8 +17,9 @@ function App() {
         <Route path="/users/signup" element={<Signup />} />
         <Route path="/users/login" element={<Login />} />
         <Route path="users/logout" element={<LoginRequiredRoute><Logout /></LoginRequiredRoute>} />
-        <Route path="/users/regist" element={<LoginRequiredRoute><UploadPhoto /></LoginRequiredRoute>} />
-        <Route path= "/users/regist/result" element= {<LoginRequiredRoute><InferenceResult /></LoginRequiredRoute>} />
+        <Route path="/posts/upload" element={<LoginRequiredRoute><UploadPhoto /></LoginRequiredRoute>} />
+        <Route path= "/posts/result" element= {<LoginRequiredRoute><InferenceResult /></LoginRequiredRoute>} />
+        <Route path= "/posts/submit" element= {<LoginRequiredRoute><SubmitPost /></LoginRequiredRoute>} />
       </Routes>
     </AppLayout>
   )

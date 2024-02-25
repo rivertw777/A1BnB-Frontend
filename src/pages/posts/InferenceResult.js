@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Result from "../../components/posts/Result";
 import { useAppContext } from "../../store";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { axiosInstance } from "../../api";
 import { Button } from "antd";
 import "./InferenceResult.scss";
@@ -13,9 +13,9 @@ function InferenceResult() {
       } = useAppContext();
 
     const location = useLocation();
+    const navigate = useNavigate();
     const [photoIdList] = useState(location.state.photoIdList || []);
     const resultRequest = { photoIdList: photoIdList };
-
     const [resultList, setResultList] = useState([]);
     
     useEffect(() => {
@@ -43,8 +43,12 @@ function InferenceResult() {
               ))}
           </div>
           <div style={{ display: "flex", justifyContent: "center", marginTop: "20px", marginBottom: "40px" }}>
-            <Button className="custom-button" htmlType="submit" style={{ height: "70px", fontSize: "30px" }}>
-                Register Your Property
+            <Button 
+                className="custom-button" 
+                htmlType="submit" 
+                style={{ height: "70px", fontSize: "30px" }} 
+                onClick={() => navigate("/posts/submit", { state: {photoIdList} })}>
+                    Register Your Property
             </Button>
           </div>
         </div>

@@ -71,7 +71,7 @@ export default function Login() {
   
     return (
       <div className="Login">
-      <Card title={<span style={{ color: '#7788E8' }}>로그인</span>}>
+      <Card title={<span style={{ color: '#666666' }}>로그인</span>}>
         <Form
           {...layout}
           onFinish={onFinish}
