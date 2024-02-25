@@ -4,7 +4,7 @@ import { Card, Carousel } from "antd";
 
 function Post({ post }) {
 
-  const { authorName, photoUrls, location } = post;
+  const { authorName, photoUrls, location, pricePerNight } = post;
 
   const Description = ({ authorName }) => (
     <div>
@@ -35,7 +35,7 @@ function Post({ post }) {
           description={<Description authorName={authorName} />}
           style={{ marginBottom: "1em" }}
         />
-        <p style={{ marginBottom: "5px" }}><strong>₩190,000</strong> / 1박</p>
+        <p style={{ marginBottom: "5px" }}><strong>{pricePerNight}₩</strong> / 1박</p>
       </Card>
     </div>
   );

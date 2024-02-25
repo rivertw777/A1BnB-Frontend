@@ -56,7 +56,7 @@ function Home() {
           필터
         </Button>
       </div>
-      <div style={{ marginBottom: "30px" }}>
+      <div style={{ marginBottom: "20px" }}>
         <PostList />
       </div>
       <Modal

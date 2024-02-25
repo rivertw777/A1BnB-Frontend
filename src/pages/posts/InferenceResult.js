@@ -47,7 +47,7 @@ function InferenceResult() {
                 className="custom-button" 
                 htmlType="submit" 
                 style={{ height: "70px", fontSize: "30px" }} 
-                onClick={() => navigate("/posts/submit", { state: {photoIdList} })}>
+                onClick={() => navigate("/posts/submit", { state: { photoIdList, from: 'InferenceResult' } })}>
                     Register Your Property
             </Button>
           </div>

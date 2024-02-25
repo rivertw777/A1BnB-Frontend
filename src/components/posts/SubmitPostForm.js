@@ -1,11 +1,12 @@
 // 게시물 등록 폼
 import React, { useState } from "react";
-import { Button, Form, Input, Modal, Upload, notification } from "antd";
+import { Button, Form, Input, DatePicker, InputNumber, notification } from "antd";
 import { FrownOutlined, PlusOutlined, SmileOutlined } from "@ant-design/icons";
 import { useAppContext } from "../../store";
 import { parseErrorMessages } from "../../utils/forms";
 import { useLocation, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api";
+
 
 export default function SubmitPostForm({ photoIdList }) {
   const {
@@ -20,11 +21,16 @@ export default function SubmitPostForm({ photoIdList }) {
     const {
       caption,
       location,
+      dates,
+      pricePerNight
     } = fieldValues;
 
     const formData = new FormData();
     formData.append("caption", caption);
     formData.append("location", location);
+    formData.append("checkin", dates[0].toISOString());
+    formData.append("checkout", dates[1].toISOString());
+    formData.append("pricePerNight", pricePerNight.toLocaleString());
     formData.append("photoIdList", photoIdList)
 
     const headers = { Authorization: `Bearer ${jwtToken}` };
@@ -39,7 +45,7 @@ export default function SubmitPostForm({ photoIdList }) {
         icon: <SmileOutlined style={{ color: "#108ee9" }} />
       });
 
-      navigate("/");
+      navigate('/');
       window.location.reload(); // 페이지 새로고침
     } catch (error) {
       if (error.response) {
@@ -78,6 +84,29 @@ export default function SubmitPostForm({ photoIdList }) {
         {...fieldErrors.non_field_errors}
       >
         <Input.TextArea />
+      </Form.Item>
+
+      <Form.Item
+        label="Check-In/Out"
+        name="dates"
+        rules={[{ required: true, message: "체크인/체크아웃 날짜를 선택해주세요." }]}
+        hasFeedback
+        {...fieldErrors.dates}
+      >
+        <DatePicker.RangePicker />
+      </Form.Item>
+
+      <Form.Item
+        label="Price Per Night"
+        name="pricePerNight"
+        rules={[
+          { required: true, message: "가격을 입력해주세요." },
+          { type: "number", min: 1, message: "0 초과의 가격을 입력해주세요." }
+        ]}
+        hasFeedback
+        {...fieldErrors.pricePerNight}
+      >
+        <InputNumber min={0} step={1000} style={{ width: "100%" }} />
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 10, span: 8 }}>
