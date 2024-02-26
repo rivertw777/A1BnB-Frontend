@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button, Modal, Dropdown, Menu } from "antd";
 import { FilterOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import PostList from "../components/posts/PostList";
+import SearchForm from "../components/posts/SearchPostForm";
 
 function Home() {
   const [selectedOption, setSelectedOption] = useState("최신순");
@@ -18,6 +19,12 @@ function Home() {
   const handleCancel = () => {
     setModalVisible(false);
   };
+
+  const handleSearch = (values) => {
+    console.log(values);
+    handleCancel();
+  };
+
 
   const menu = (
     <Menu onClick={handleOptionChange}>
@@ -53,7 +60,7 @@ function Home() {
           style={{ marginRight: "8px", borderRadius: "8px", width: "100px", height: "40px", border: "1px solid grey" }}
           onClick={showModal}
         >
-          필터
+          Search
         </Button>
       </div>
       <div style={{ marginBottom: "20px" }}>
@@ -65,8 +72,7 @@ function Home() {
         onCancel={handleCancel}
         footer={null}
       >
-        {/* 모달 내용 */}
-        {/* 여기에 검색 필터 옵션을 추가할 수 있습니다 */}
+        <SearchForm handleSearch={handleSearch} handleCancel={handleCancel} />
       </Modal>
     </>
   );
