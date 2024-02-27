@@ -70,6 +70,7 @@ function Home() {
         title="검색 필터"
         visible={modalVisible}
         onCancel={handleCancel}
+        destroyOnClose={true}  
         footer={null}
       >
         <SearchForm handleSearch={handleSearch} handleCancel={handleCancel} />

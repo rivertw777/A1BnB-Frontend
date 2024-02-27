@@ -1,3 +1,4 @@
+// 페이지 등록 
 import { Route, Routes } from 'react-router-dom';
 import AppLayout from './components/AppLayout';
 import Login from './pages/users/Login';
@@ -8,6 +9,7 @@ import UploadPhoto from './pages/posts/UploadPhoto';
 import InferenceResult from './pages/posts/InferenceResult';
 import SubmitPost from './pages/posts/SubmitPost';
 import LoginRequiredRoute from './utils/LoginRequiredRoute';
+import SearchPostResult from './pages/posts/SearchPostResult';
 
 function App() {
   return (
@@ -18,8 +20,9 @@ function App() {
         <Route path="/users/login" element={<Login />} />
         <Route path="users/logout" element={<LoginRequiredRoute><Logout /></LoginRequiredRoute>} />
         <Route path="/posts/upload" element={<LoginRequiredRoute><UploadPhoto /></LoginRequiredRoute>} />
-        <Route path= "/posts/result" element= {<LoginRequiredRoute><InferenceResult /></LoginRequiredRoute>} />
-        <Route path= "/posts/submit" element= {<LoginRequiredRoute><SubmitPost /></LoginRequiredRoute>} />
+        <Route path="/posts/result" element={<LoginRequiredRoute><InferenceResult /></LoginRequiredRoute>} />
+        <Route path="/posts/submit" element={<LoginRequiredRoute><SubmitPost /></LoginRequiredRoute>} />
+        <Route path="/posts/search" element={<SearchPostResult />} /> 
       </Routes>
     </AppLayout>
   )

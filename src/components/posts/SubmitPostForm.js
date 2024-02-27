@@ -41,7 +41,6 @@ export default function SubmitPostForm({ photoIdList }) {
       const response = await axiosInstance.post("/api/posts", formData, {
         headers
       });
-      console.log("success response :", response);
 
       notification.open({
         message: "게시물 작성 완료",
@@ -106,14 +105,14 @@ export default function SubmitPostForm({ photoIdList }) {
                 return Promise.reject(new Error("체크인과 체크아웃 날짜는 같을 수 없습니다."));
             }
             return Promise.resolve();
-        },
-    }),
-  ]}
-  hasFeedback
-  {...fieldErrors.dates}
->
-  <DatePicker.RangePicker />
-</Form.Item>
+            },
+          }),
+        ]}
+        hasFeedback
+        {...fieldErrors.dates}
+      >
+        <DatePicker.RangePicker />
+      </Form.Item>
 
       <Form.Item
         label="Price Per Night"
