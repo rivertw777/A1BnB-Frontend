@@ -17,7 +17,7 @@ export default function SubmitPost() {
     if (isFirstRender.current) {
       isFirstRender.current = false;
       // InferenceResult 페이지에서 왔는지 확인하고, 그렇지 않다면 UploadPhoto 페이지로 리다이렉트합니다.
-      if(location.state?.from !== 'InferenceResult'){
+      if(location.state?.from !== 'InferResult'){
         notification.open({
             message: "사진을 다시 등록해주세요.",
             icon: <MehOutlined  style={{ color: "#fa8c16" }} />

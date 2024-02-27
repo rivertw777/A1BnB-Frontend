@@ -6,12 +6,24 @@ function Post({ post }) {
 
   const { authorName, photoUrls, location, checkIn, checkOut, pricePerNight } = post;
 
-  const Description = ({ authorName }) => (
-    <div>
-      Host: {authorName}님<br />
-      2월 25일~26일
-    </div>
-  );
+  const Description = ({ authorName }) => {
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+  
+    let formattedCheckInDate = `${checkInDate.getMonth() + 1}월 ${checkInDate.getDate()}일`;
+    let formattedCheckOutDate = `${checkOutDate.getMonth() + 1}월 ${checkOutDate.getDate()}일`;
+  
+    if (checkInDate.getMonth() === checkOutDate.getMonth()) {
+      formattedCheckOutDate = `${checkOutDate.getDate()}일`;
+    }
+  
+    return (
+      <div>
+        Host: {authorName}님<br />
+        {formattedCheckInDate}~{formattedCheckOutDate}
+      </div>
+    );
+  };
 
   // photoUrls 리스트에서 처음 4개의 요소만을 가져와서 새로운 리스트를 만듭니다.
   const limitedPhotoUrls = photoUrls.slice(0, 4);

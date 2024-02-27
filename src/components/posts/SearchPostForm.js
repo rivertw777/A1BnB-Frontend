@@ -31,7 +31,8 @@ export default function SearchPostForm({ handleSearch, handleCancel }) {
             authorName,
             location,
             dates,
-            pricePerNight,
+            minPrice,
+            maxPrice,
             amenities
         } = fieldValues;
         
@@ -53,8 +54,11 @@ export default function SearchPostForm({ handleSearch, handleCancel }) {
             formData.append("checkIn", format(checkIn, "yyyy-MM-dd'T'HH:mm:ss"));
             formData.append("checkOut", format(checkOut, "yyyy-MM-dd'T'HH:mm:ss"));
         }
-        if (pricePerNight){
-            formData.append("pricePerNight", pricePerNight);
+        if (minPrice){
+            formData.append("minPrice", minPrice);
+        }
+        if (maxPrice){
+            formData.append("maxPrice", maxPrice);
         }
         if (amenities){
             amenities.forEach((amenity) => {
@@ -134,8 +138,27 @@ export default function SearchPostForm({ handleSearch, handleCancel }) {
         </Form.Item>
       
         <Form.Item
-            label="가격 (1박)"
-            name="pricePerNight"
+            label="최소 가격(1박)"
+            name="minPrice"
+            rules={[
+                { type: "number",  message: "숫자를 입력해주세요." },
+                {
+                    validator: async (_, value) => {
+                        if (value !== undefined && isNaN(value)) {
+                            return Promise.reject(new Error("숫자 값을 입력해주세요."));
+                        }
+                    },
+                }
+            ]}
+            hasFeedback
+            {...fieldErrors.pricePerNight}
+        >
+            <InputNumber min={0} step={1000} style={{ width: "100%" }} />
+        </Form.Item>
+
+        <Form.Item
+            label="최대 가격(1박)"
+            name="maxPrice"
             rules={[
                 { type: "number",  message: "숫자를 입력해주세요." },
                 {

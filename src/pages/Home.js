@@ -1,11 +1,13 @@
 // 홈 페이지
 import React, { useState } from "react";
-import { Button, Modal, Dropdown, Menu } from "antd";
+import { Button, Modal, Dropdown, Menu, Typography, Space } from "antd";
 import { FilterOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { useAxios, axiosInstance } from "../api";
 import PostList from "../components/posts/PostList";
 import SearchForm from "../components/posts/SearchPostForm";
 
 function Home() {
+  const { Title } = Typography;
   const [selectedOption, setSelectedOption] = useState("최신순");
   const handleOptionChange = (e) => {
     setSelectedOption(e.key);
@@ -40,6 +42,10 @@ function Home() {
     </Menu>
   );
 
+  const [{ data: postList }] = useAxios({
+    url: "/api/posts",
+  });
+
   return (
     <>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -64,10 +70,12 @@ function Home() {
         </Button>
       </div>
       <div style={{ marginBottom: "20px" }}>
-        <PostList />
+        <PostList postList={postList}/>
       </div>
       <Modal
-        title="검색 필터"
+        title={
+          <Title level={3} style={{ color: '#666666', marginBottom: '30px' }}>검색 필터</Title>
+        }
         visible={modalVisible}
         onCancel={handleCancel}
         destroyOnClose={true}  

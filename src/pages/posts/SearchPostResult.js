@@ -7,10 +7,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 function SearchPostResult() {
     const location = useLocation();
-    const [postList] = useState(location.state.postList || []);
-    console.log(postList);
+    const [postList] = useState(location?.state?.postList || []);
 
-    return null;
+    return (
+        <div style={{ marginBottom: "20px" }}>
+            <PostList postList={postList}/>
+        </div>
+    );
 }
 
 export default SearchPostResult;

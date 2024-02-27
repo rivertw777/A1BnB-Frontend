@@ -2,7 +2,7 @@
 import React from "react";
 import { Card } from "antd";
 
-function Result({ result }) {
+function InferenceResult({ result }) {
   const { roomType, detectedUrl, ammenityTypes } = result;
 
   return (
@@ -22,4 +22,4 @@ function Result({ result }) {
   );
 }
 
-export default Result;
+export default InferenceResult;

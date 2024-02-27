@@ -4,28 +4,24 @@ import React, { useEffect, useState } from "react";
 import { useAxios, axiosInstance } from "../../api";
 import Post from "./Post";
 
-function PostList() {
+function PostList({postList}) {
 
-  const [postList, setPostList] = useState([]);
+  const [localPostList, setLocalPostList] = useState([]); // 이름 변경
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
   const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
 
-  const [{ data: originPostList, loading, error }, refetch] = useAxios({
-    url: "/api/posts",
-  });
-
   useEffect(() => {
-    if (originPostList && originPostList.length > 0) {
-      const sortedPostList = originPostList.sort(
+    if (postList && postList.length > 0) {
+      const sortedPostList = postList.sort(
         (a, b) => b.postId - a.postId
       );
-      setPostList(sortedPostList);
+      setLocalPostList(sortedPostList); // 변경된 함수 사용
 
       // 전체 페이지 수 계산
       const totalPages = Math.ceil(sortedPostList.length / 8);
       setTotalPages(totalPages);
     }
-  }, [originPostList]);
+  }, [postList]);
 
   // 페이지 번호 클릭 시 해당 페이지로 이동하는 함수
   const goToPage = (pageNumber) => {
@@ -38,7 +34,7 @@ function PostList() {
   const getCurrentPagePosts = () => {
     const startIndex = (currentPage - 1) * 8;
     const endIndex = startIndex + 8;
-    return postList.slice(startIndex, endIndex);
+    return localPostList.slice(startIndex, endIndex); // 변경된 변수 사용
   };
 
   return (

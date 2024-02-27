@@ -1,13 +1,13 @@
 // 사진 추론 결과 페이지
 import React, { useEffect, useState } from "react";
-import Result from "../../components/posts/Result";
+import InferenceResult from "../../components/posts/InferenceResult";
 import { useAppContext } from "../../store";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { axiosInstance } from "../../api";
 import { Button } from "antd";
-import "./InferenceResult.scss";
+import "./InferResult.scss";
 
-function InferenceResult() {
+function InferResult() {
     const {
         store: { jwtToken }
       } = useAppContext();
@@ -39,7 +39,7 @@ function InferenceResult() {
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-evenly", gap: "20px" }}>
             {resultList &&
               resultList.map(result => (
-                <Result result={result} key={result.resultId} />
+                <InferenceResult result={result} key={result.photoId} />
               ))}
           </div>
           <div style={{ display: "flex", justifyContent: "center", marginTop: "20px", marginBottom: "40px" }}>
@@ -47,7 +47,7 @@ function InferenceResult() {
                 className="custom-button" 
                 htmlType="submit" 
                 style={{ height: "70px", fontSize: "30px" }} 
-                onClick={() => navigate("/posts/submit", { state: { photoIdList, from: 'InferenceResult' } })}>
+                onClick={() => navigate("/posts/submit", { state: { photoIdList, from: 'InferResult' } })}>
                     Register Your Property
             </Button>
           </div>
@@ -55,4 +55,4 @@ function InferenceResult() {
     );
 }
   
-export default InferenceResult;
+export default InferResult;
