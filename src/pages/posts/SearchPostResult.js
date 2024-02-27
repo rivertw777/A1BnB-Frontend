@@ -6,12 +6,13 @@ import PostList from "../../components/posts/PostList";
 import { useLocation, useNavigate } from 'react-router-dom';
 
 function SearchPostResult() {
+    const url = "/api/posts/search";
     const location = useLocation();
-    const [postList] = useState(location?.state?.postList || []);
+    const { searchCondition } = location.state;
 
     return (
         <div style={{ marginBottom: "20px" }}>
-            <PostList postList={postList}/>
+            <PostList url={url} condition={searchCondition}/>
         </div>
     );
 }

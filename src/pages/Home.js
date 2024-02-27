@@ -1,8 +1,7 @@
 // 홈 페이지
 import React, { useState } from "react";
-import { Button, Modal, Dropdown, Menu, Typography, Space } from "antd";
+import { Button, Modal, Dropdown, Menu, Typography } from "antd";
 import { FilterOutlined, UnorderedListOutlined } from "@ant-design/icons";
-import { useAxios, axiosInstance } from "../api";
 import PostList from "../components/posts/PostList";
 import SearchForm from "../components/posts/SearchPostForm";
 
@@ -42,9 +41,7 @@ function Home() {
     </Menu>
   );
 
-  const [{ data: postList }] = useAxios({
-    url: "/api/posts",
-  });
+  const url = "/api/posts";
 
   return (
     <>
@@ -70,7 +67,7 @@ function Home() {
         </Button>
       </div>
       <div style={{ marginBottom: "20px" }}>
-        <PostList postList={postList}/>
+        <PostList url={url}/>
       </div>
       <Modal
         title={

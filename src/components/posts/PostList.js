@@ -4,58 +4,65 @@ import React, { useEffect, useState } from "react";
 import { useAxios, axiosInstance } from "../../api";
 import Post from "./Post";
 
-function PostList({postList}) {
-
-  const [localPostList, setLocalPostList] = useState([]); // 이름 변경
+function PostList({ url, condition }) {
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
-  const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
+  const pageSize = 8; // 페이지 크기
+  const [postPage, setPostPage] = useState(null);
+
+  console.log(url);
+  console.log(condition);
 
   useEffect(() => {
-    if (postList && postList.length > 0) {
-      const sortedPostList = postList.sort(
-        (a, b) => b.postId - a.postId
-      );
-      setLocalPostList(sortedPostList); // 변경된 함수 사용
+    const fetchPosts = async () => {
+      const config = {
+        params: {
+          page: currentPage - 1, // Spring은 페이지 번호가 0부터 시작하므로 1을 빼줍니다.
+          size: pageSize,
+          sort: "createdAt,desc",
+        },
+      };
 
-      // 전체 페이지 수 계산
-      const totalPages = Math.ceil(sortedPostList.length / 8);
-      setTotalPages(totalPages);
-    }
-  }, [postList]);
+      try {
+        let data;
+        if (condition) {
+          const response = await axiosInstance.post(url, condition, config);
+          data = response.data;
+        } else {
+          const response = await axiosInstance.get(url, config);
+          data = response.data;
+        }
+        setPostPage(data);
+      } catch (error) {
+        console.error("Failed to fetch posts", error);
+      }
+    };
 
-  // 페이지 번호 클릭 시 해당 페이지로 이동하는 함수
-  const goToPage = (pageNumber) => {
-    if (pageNumber >= 1 && pageNumber <= totalPages) {
-      setCurrentPage(pageNumber);
-    }
-  };
+    fetchPosts();
+  }, [url, condition, currentPage]);
 
-  // 현재 페이지에 해당하는 포스트 리스트 가져오기
-  const getCurrentPagePosts = () => {
-    const startIndex = (currentPage - 1) * 8;
-    const endIndex = startIndex + 8;
-    return localPostList.slice(startIndex, endIndex); // 변경된 변수 사용
+  // 페이지 변경 시 해당 페이지의 데이터를 가져오는 함수
+  const handlePageChange = (page, pageSize) => {
+    setCurrentPage(page);
   };
 
   return (
     <div>
       <Row>
-        {getCurrentPagePosts().map((post) => (
+        {postPage?.content.map((post) => (
           <Col span={6} key={post.postId}>
             <Post post={post} />
           </Col>
         ))}
       </Row>
-      {totalPages > 1 && (
-        <div style={{ textAlign: 'center', marginTop: '40px' }}>
-          <Pagination
-            current={currentPage}
-            total={totalPages}
-            onChange={goToPage}
-            pageSize={1}
-          />
-        </div>
-      )}
+      <div style={{ textAlign: 'center', marginTop: '40px' }}>
+        <Pagination
+          current={currentPage}
+          total={postPage?.totalElements}
+          onChange={handlePageChange}
+          pageSize={pageSize}
+          showSizeChanger={false} // 페이지 크기 변경 기능 끄기
+        />
+      </div>
     </div>
   );
 }
