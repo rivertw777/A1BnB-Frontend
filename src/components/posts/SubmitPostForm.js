@@ -7,6 +7,7 @@ import { parseErrorMessages } from "../../utils/forms";
 import { useLocation, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api";
 import { format } from 'date-fns';
+import moment from 'moment';
 
 export default function SubmitPostForm({ photoIdList }) {
   const {
@@ -34,19 +35,17 @@ export default function SubmitPostForm({ photoIdList }) {
       maximumOccupancy
     } = fieldValues;
 
-    const checkIn = dates[0].toDate(); 
-    const checkOut = dates[1].toDate();
+    const startDate = dates[0].toDate(); 
+    const endDate = dates[1].toDate();
 
     const formData = new FormData();
     formData.append("caption", caption);
     formData.append("location", location);
-    formData.append("checkIn", format(checkIn, "yyyy-MM-dd'T'HH:mm:ss"));
-    formData.append("checkOut", format(checkOut, "yyyy-MM-dd'T'HH:mm:ss"));
+    formData.append("startDate", format(startDate, "yyyy-MM-dd'T'HH:mm:ss"));
+    formData.append("endDate", format(endDate, "yyyy-MM-dd'T'HH:mm:ss"));
     formData.append("pricePerNight", pricePerNight);
     formData.append("photoIdList", photoIdList);
     formData.append("maximumOccupancy", maximumOccupancy);
-
-    console.log(formData);
 
     const headers = { Authorization: `Bearer ${jwtToken}` };
     try {
@@ -104,20 +103,17 @@ export default function SubmitPostForm({ photoIdList }) {
       </Form.Item>
   
       <Form.Item
-        label="체크인/체크아웃"
+        label="시작/종료 날짜"
         name="dates"
         rules={[
             { 
                 required: true, 
-                message: "체크인/체크아웃 날짜를 선택해주세요." 
+                message: "시작/종료 날짜를 선택해주세요." 
             },
             ({ getFieldValue }) => ({
                 validator(_, value) {
                     if (!value || value.length !== 2) {
                         return Promise.reject(new Error("두 개의 날짜를 선택해주세요."));
-            }
-            if (value[0].isSame(value[1], 'day')) {
-                return Promise.reject(new Error("체크인과 체크아웃 날짜는 같을 수 없습니다."));
             }
             return Promise.resolve();
             },
@@ -126,7 +122,9 @@ export default function SubmitPostForm({ photoIdList }) {
         hasFeedback
         {...fieldErrors.dates}
       >
-        <DatePicker.RangePicker />
+        <DatePicker.RangePicker 
+          disabledDate={(current) => current && current.isBefore(moment().startOf('day'))}
+        />
       </Form.Item>
   
       <Form.Item

@@ -5,26 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function Post({ post }) {
 
-  const { postId, authorName, photoUrls, location, checkIn, checkOut, pricePerNight } = post;
-
-  const Description = ({ authorName }) => {
-    const checkInDate = new Date(checkIn);
-    const checkOutDate = new Date(checkOut);
-  
-    let formattedCheckInDate = `${checkInDate.getMonth() + 1}월 ${checkInDate.getDate()}일`;
-    let formattedCheckOutDate = `${checkOutDate.getMonth() + 1}월 ${checkOutDate.getDate()}일`;
-  
-    if (checkInDate.getMonth() === checkOutDate.getMonth()) {
-      formattedCheckOutDate = `${checkOutDate.getDate()}일`;
-    }
-  
-    return (
-      <div>
-        Host: {authorName}님<br />
-        {formattedCheckInDate}~{formattedCheckOutDate}
-      </div>
-    );
-  };
+  const { postId, authorName, photoUrls, location, pricePerNight } = post;
 
   // photoUrls 리스트에서 처음 4개의 요소만을 가져와서 새로운 리스트를 만듭니다.
   const limitedPhotoUrls = photoUrls.slice(0, 5);
@@ -51,8 +32,8 @@ function Post({ post }) {
       >
         <Card.Meta
           title={location}
-          description={<Description authorName={authorName} />}
-          style={{ marginBottom: "1em" }}
+          description={`Host: ${authorName}님`}
+          style={{ marginBottom: "-0.5em" }}
         />
         <p style={{ marginBottom: "5px" }}><strong>{pricePerNight.toLocaleString()}₩</strong> / 1박</p>
       </Card>

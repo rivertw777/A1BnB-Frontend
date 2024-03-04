@@ -5,7 +5,7 @@ import { FrownOutlined, SmileOutlined } from "@ant-design/icons";
 import { useAppContext } from "../../store";
 import { axiosInstance } from "../../api";
 import { format } from 'date-fns';
-
+import moment from 'moment';
 import "./BookForm.scss";
 
 export default function BookingForm( {bookFormData} ) {
@@ -15,18 +15,22 @@ export default function BookingForm( {bookFormData} ) {
   const [fieldErrors, setFieldErrors] = useState({});
   const [form] = Form.useForm();
   
-  const { postId, checkIn, checkOut, pricePerNight, maximumOccupancy } = bookFormData;
+  const { postId, availableDates, pricePerNight, maximumOccupancy } = bookFormData;
+  const availableDatesInMoment = availableDates ? availableDates.map(date => moment(date)) : [];
+  console.log(availableDatesInMoment);
+
+  const { RangePicker } = DatePicker;
 
   // 숙소 예약 API 요청
   const onFinish = async fieldValues => {
     const { dates } = fieldValues;
 
-    const checkIn = dates[0].toDate(); 
-    const checkOut = dates[1].toDate();
+    const checkInDate = dates[0].toDate(); 
+    const checkOutDate = dates[1].toDate();
 
     const formData = new FormData();
-    formData.append("checkIn", format(checkIn, "yyyy-MM-dd'T'HH:mm:ss"));
-    formData.append("checkOut", format(checkOut, "yyyy-MM-dd'T'HH:mm:ss"));
+    formData.append("checkInDate", format(checkInDate, "yyyy-MM-dd'T'HH:mm:ss"));
+    formData.append("checkOutDate", format(checkOutDate, "yyyy-MM-dd'T'HH:mm:ss"));
 
     if (!isAuthenticated) {
       notification.open({
@@ -106,7 +110,13 @@ export default function BookingForm( {bookFormData} ) {
             hasFeedback
             {...fieldErrors.dates}
         >
-            <DatePicker.RangePicker style={{ width: '100%' }} onChange={handleDateChange}/>
+          <RangePicker
+          style={{ width: '100%' }}
+          onChange={handleDateChange}
+          disabledDate={(current) => {
+            return current && !availableDatesInMoment.some(date => current.year() === date.year() && current.month() === date.month() && current.date() === date.date());
+          }}
+        />
         </Form.Item>
   
         <Form.Item 

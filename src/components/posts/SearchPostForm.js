@@ -4,6 +4,8 @@ import { Button, Form, Input, DatePicker, InputNumber, Select } from "antd";
 import { useAppContext } from "../../store";
 import { useLocation, useNavigate } from "react-router-dom";
 import { format } from 'date-fns';
+import moment from 'moment';
+
 
 export default function SearchPostForm({ handleSearch, handleCancel }) {
     const {
@@ -41,18 +43,18 @@ export default function SearchPostForm({ handleSearch, handleCancel }) {
             occupancy
         } = fieldValues;
         
-        let checkIn, checkOut;
+        let checkInDate, checkOutDate;
 
         if (dates) {
-            checkIn = dates[0].toDate(); // Moment.js 객체를 Date 객체로 변환
-            checkOut = dates[1].toDate();
+            checkInDate = dates[0].toDate(); // Moment.js 객체를 Date 객체로 변환
+            checkOutDate = dates[1].toDate();
         }
         
         const searchCondition = {
             authorName: authorName ? authorName : null,
             location: location ? location : null,
-            checkIn: checkIn ? format(checkIn, "yyyy-MM-dd'T'HH:mm:ss") : null,
-            checkOut: checkOut ? format(checkOut, "yyyy-MM-dd'T'HH:mm:ss") : null,
+            checkIn: checkInDate ? format(checkInDate, "yyyy-MM-dd'T'HH:mm:ss") : null,
+            checkOut: checkOutDate ? format(checkOutDate, "yyyy-MM-dd'T'HH:mm:ss") : null,
             minPrice: minPrice ? minPrice : null,
             maxPrice: maxPrice ? maxPrice : null,
             amenities: amenities ? amenities : null,
@@ -109,7 +111,9 @@ export default function SearchPostForm({ handleSearch, handleCancel }) {
             hasFeedback
             {...fieldErrors.dates}
           >
-            <DatePicker.RangePicker />
+            <DatePicker.RangePicker 
+                disabledDate={(current) => current && current.isBefore(moment().startOf('day'))}
+            />
           </Form.Item>
       
           <Form.Item

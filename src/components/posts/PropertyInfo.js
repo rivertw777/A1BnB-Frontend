@@ -12,7 +12,6 @@ import {
     faPrint,
     faSink,
     faSwimmer,
-    faDoorOpen,
     faHome,
     faPallet,
     faPersonThroughWindow

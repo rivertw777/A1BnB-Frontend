@@ -26,7 +26,6 @@ function Home() {
     handleCancel();
   };
 
-
   const menu = (
     <Menu onClick={handleOptionChange}>
       <Menu.Item key="최신순">
