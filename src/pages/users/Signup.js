@@ -10,6 +10,8 @@ export default function Signup() {
   const navigate = useNavigate();
   const [fieldErrors, setFieldErrors] = useState({});
 
+
+  // 회원가입 API 요청
   const onFinish = async (values) => {
     const { name, password } = values;
 

@@ -16,7 +16,8 @@ export default function Login() {
     const { from: loginRedirectUrl } = location.state || {
       from: { pathname: "/" }
     };
-  
+
+    // 로그인 API 요청
     const onFinish = values => {
       async function fn() {
         const { name, password } = values;

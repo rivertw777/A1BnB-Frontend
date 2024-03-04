@@ -1,9 +1,9 @@
 // 전체 레이아웃
-import React from "react";
+import { React } from 'react';
 import { Input, Button } from "antd";
-import "./AppLayout.scss";
 import { useAppContext } from "../store";
 import { useNavigate } from "react-router-dom";
+import "./AppLayout.scss";
 
 function AppLayout({ children }) {
   const {
@@ -35,7 +35,7 @@ function AppLayout({ children }) {
         <div className="topnav">
           <Button
             type="link"
-            onClick={() => navigate("posts/upload")}
+            onClick={() => navigate("/photos/upload")}
             style={{
               color: "#7788E8",
               fontFamily: "Arial",
@@ -47,7 +47,7 @@ function AppLayout({ children }) {
           </Button>
           <Button
             type="link"
-            onClick={() => navigate("users")}
+            onClick={() => navigate("/users")}
             style={{
               color: "#7788E8",
               fontFamily: "Arial",
@@ -60,7 +60,7 @@ function AppLayout({ children }) {
           {isAuthenticated ? (
             <Button
               type="link"
-              onClick={() => navigate("users/logout")}
+              onClick={() => navigate("/users/logout")}
               style={{
                 color: "#7788E8",
                 fontFamily: "Arial",
@@ -73,7 +73,7 @@ function AppLayout({ children }) {
           ) : (
             <Button
               type="link"
-              onClick={() => navigate("users/login")}
+              onClick={() => navigate("/users/login")}
               style={{
                 color: "#7788E8",
                 fontFamily: "Arial",

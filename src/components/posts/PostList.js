@@ -4,17 +4,16 @@ import React, { useEffect, useState } from "react";
 import { useAxios, axiosInstance } from "../../api";
 import Post from "./Post";
 
-function PostList({ url, condition }) {
+function PostList({ apiUrl, condition }) {
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
   const pageSize = 8; // 페이지 크기
   const [postPage, setPostPage] = useState(null);
 
-  console.log(url);
-  console.log(condition);
 
+  // 조건에 따른 게시물 조회 API 호출
   useEffect(() => {
     const fetchPosts = async () => {
-      const config = {
+      const pageConfig = {
         params: {
           page: currentPage - 1, // Spring은 페이지 번호가 0부터 시작하므로 1을 빼줍니다.
           size: pageSize,
@@ -25,10 +24,10 @@ function PostList({ url, condition }) {
       try {
         let data;
         if (condition) {
-          const response = await axiosInstance.post(url, condition, config);
+          const response = await axiosInstance.post(apiUrl, condition, pageConfig);
           data = response.data;
         } else {
-          const response = await axiosInstance.get(url, config);
+          const response = await axiosInstance.get(apiUrl, pageConfig);
           data = response.data;
         }
         setPostPage(data);
@@ -38,7 +37,7 @@ function PostList({ url, condition }) {
     };
 
     fetchPosts();
-  }, [url, condition, currentPage]);
+  }, [apiUrl, condition, currentPage]);
 
   // 페이지 변경 시 해당 페이지의 데이터를 가져오는 함수
   const handlePageChange = (page, pageSize) => {

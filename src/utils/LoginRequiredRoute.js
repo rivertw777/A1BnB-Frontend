@@ -18,7 +18,6 @@ export default function LoginRequiredRoute({ children }) {
     icon: <FrownOutlined style={{ color: "#ff3333" }} />
   });
 
-  
   return (
     <Navigate
       to={{

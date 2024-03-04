@@ -1,10 +1,11 @@
 // 게시물 
 import React from "react";
 import { Card, Carousel } from "antd";
+import { useNavigate } from "react-router-dom";
 
 function Post({ post }) {
 
-  const { authorName, photoUrls, location, checkIn, checkOut, pricePerNight } = post;
+  const { postId, authorName, photoUrls, location, checkIn, checkOut, pricePerNight } = post;
 
   const Description = ({ authorName }) => {
     const checkInDate = new Date(checkIn);
@@ -26,12 +27,18 @@ function Post({ post }) {
   };
 
   // photoUrls 리스트에서 처음 4개의 요소만을 가져와서 새로운 리스트를 만듭니다.
-  const limitedPhotoUrls = photoUrls.slice(0, 4);
+  const limitedPhotoUrls = photoUrls.slice(0, 5);
 
+  const navigate = useNavigate();
+  const goToPostDetail = () => {
+    navigate(`/posts/${postId}`); 
+  };
+  
   return (
     <div className="post" style={{ display: "flex", justifyContent: "center", marginTop: "50px", marginBottom: "-10px" }}>
       <Card 
         style={{ width: '300px', borderRadius: '10px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)', margin: '0 20px' }}
+        onClick={goToPostDetail}
         cover={
           <Carousel arrows autoplay={true} speed={3000}>
             {limitedPhotoUrls.map((url, index) => (

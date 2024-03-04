@@ -13,6 +13,7 @@ export default function SubmitPost() {
 
   const isFirstRender = useRef(true);
 
+  // 뒤로가기로 페이지 접근 방지
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
@@ -29,7 +30,6 @@ export default function SubmitPost() {
       }
     }
   }, [location, navigate]);
-;
 
   return (
     <div className="SubmitPost">

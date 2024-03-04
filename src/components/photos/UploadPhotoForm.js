@@ -24,7 +24,7 @@ export default function UploadPhotoForm() {
   const [isLoading, setIsLoading] = useState(false);  // 로딩 상태 추가
 
   const handleUploadChange = ({ fileList }) => {
-    if (fileList.length <= 6) {
+    if (fileList.length <= 5) {
       const duplicatePhotos = fileList.filter(
         (file, index, self) =>
           index !== self.findIndex((f) => f.name === file.name)
@@ -53,16 +53,17 @@ export default function UploadPhotoForm() {
     });
   };
 
+  // 사진 업로드 API 호출
   const handleFinish = async (fieldValues) => {
     const {
       photos: { fileList }
     } = fieldValues;
 
-    // 사진 개수가 4장 미만인 경우 경고 메시지 표시 후 함수 종료
-    if (fileList.length < 4) {
+    // 사진 개수가 5장 미만인 경우 경고 메시지 표시 후 함수 종료
+    if (fileList.length < 5) {
       notification.warning({
         message: "사진 개수 부족",
-        description: "사진은 최소 4장을 업로드해야 합니다.",
+        description: "사진은 5장을 업로드해야 합니다.",
         icon: <FrownOutlined style={{ color: "#ff3333" }} />
       });
       return;
@@ -82,7 +83,7 @@ export default function UploadPhotoForm() {
 
       // 서버에서 반환된 photoIdList를 받아오기
       const photoIdList = response.data;
-      navigate("/posts/result", { state: { photoIdList } });
+      navigate("/photos/result", { state: { photoIdList } });
       
     } catch (error) {
       if (error.response) {
@@ -125,7 +126,7 @@ export default function UploadPhotoForm() {
             onPreview={handlePreviewPhoto}
             multiple // 여러 장의 사진을 선택할 수 있도록 multiple 속성 추가
           >
-            {fileList.length > -1 && fileList.length < 6 ? (
+            {fileList.length > -1 && fileList.length < 5 ? (
               <div>
                 <PlusOutlined />
                 <div className="ant-upload-text">Upload</div>

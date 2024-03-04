@@ -41,7 +41,7 @@ function Home() {
     </Menu>
   );
 
-  const url = "/api/posts";
+  const apiUrl = "/api/posts";
 
   return (
     <>
@@ -67,7 +67,7 @@ function Home() {
         </Button>
       </div>
       <div style={{ marginBottom: "20px" }}>
-        <PostList url={url}/>
+        <PostList apiUrl={apiUrl}/>
       </div>
       <Modal
         title={
