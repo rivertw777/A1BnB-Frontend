@@ -4,8 +4,7 @@ import { Button, Form, Input, DatePicker, InputNumber, Select } from "antd";
 import { useAppContext } from "../../store";
 import { useLocation, useNavigate } from "react-router-dom";
 import { format } from 'date-fns';
-import moment from 'moment';
-
+import dayjs from 'dayjs';
 
 export default function SearchPostForm({ handleSearch, handleCancel }) {
     const {
@@ -112,7 +111,7 @@ export default function SearchPostForm({ handleSearch, handleCancel }) {
             {...fieldErrors.dates}
           >
             <DatePicker.RangePicker 
-                disabledDate={(current) => current && current.isBefore(moment().startOf('day'))}
+                disabledDate={(current) => current && current.isBefore(dayjs(), 'day')}
             />
           </Form.Item>
       

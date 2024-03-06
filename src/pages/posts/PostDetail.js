@@ -41,14 +41,7 @@ export default function PostDetail() {
   }, [postId]);
 
   // 게시물 좋아요 API 요청
-  const handleLike = async ({ isLike }) => {
-    // 인증 X
-    if (!isAuthenticated) {
-      notification.open({
-        message: "로그인이 필요합니다!",
-        icon: <FrownOutlined style={{ color: "#ff3333" }} />
-      });
-    }
+  const handleLike = async ({isLike}) => { // 매개변수를 객체가 아닌 단일 값으로 변경
 
     const apiUrl = `/api/posts/${postId}/like`;
     const method = isLike ? "POST" : "DELETE";
@@ -59,9 +52,16 @@ export default function PostDetail() {
         method,
         headers
       });
-      fetchPostData(); // 좋아요 API 요청 후 게시물 상세 API 다시 호출
+      fetchPostData();
     } catch (error) {
-      console.log("error :", error);
+      if (error.response) {
+        const {status, data:{errorMessage}} = error.response
+        notification.open({
+          message: `${status} 에러`,
+          description: errorMessage,
+          icon: <FrownOutlined style={{ color: "#ff3333" }} />
+        });
+      }
     }
   };
 

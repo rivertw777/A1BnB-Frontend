@@ -1,11 +1,12 @@
 // 게시물 
 import React from "react";
 import { Card, Carousel } from "antd";
+import { HeartOutlined, HeartTwoTone, FrownOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 function Post({ post }) {
 
-  const { postId, authorName, photoUrls, location, pricePerNight } = post;
+  const { postId, authorName, photoUrls, location, pricePerNight, likeCount } = post;
 
   // photoUrls 리스트에서 처음 4개의 요소만을 가져와서 새로운 리스트를 만듭니다.
   const limitedPhotoUrls = photoUrls.slice(0, 5);
@@ -31,7 +32,15 @@ function Post({ post }) {
         }
       >
         <Card.Meta
-          title={location}
+          title={
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              {location}
+              <div style={{ display: 'flex', alignItems: 'center', position: 'relative', top: '-2px'}}>
+                <HeartTwoTone twoToneColor="#eb2f96" style={{ fontSize: '20px', marginRight: '10px' }}/>
+                <p style={{ margin: '0' }}>{likeCount}</p>
+              </div>
+            </div>
+          }
           description={`Host: ${authorName}님`}
           style={{ marginBottom: "-0.5em" }}
         />

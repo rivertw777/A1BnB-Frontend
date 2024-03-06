@@ -2,14 +2,16 @@
 import React, { useState } from "react";
 import { Card, Form, Input, Button, notification } from "antd";
 import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation} from "react-router-dom";
 import { axiosInstance } from "../../api";
 import "./Signup.scss";
 
 export default function Signup() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [fieldErrors, setFieldErrors] = useState({});
 
+  const role = location.state.role || null;
 
   // 회원가입 API 요청
   const onFinish = async (values) => {
@@ -17,7 +19,7 @@ export default function Signup() {
 
     setFieldErrors({});
 
-    const data = { name, password };
+    const data = { name, password, role };
     try {
       await axiosInstance.post("/api/users", data);
 

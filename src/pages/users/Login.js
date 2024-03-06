@@ -43,7 +43,7 @@ export default function Login() {
           if (error.response) {
             const {status, data:{errorMessage}} = error.response
             notification.open({
-              message: "로그인 실패",
+              message: `${status} 에러`,
               description: errorMessage,
               icon: <FrownOutlined style={{ color: "#ff3333" }} />
             });
@@ -102,16 +102,23 @@ export default function Login() {
           </Form.Item>
   
           <Form.Item {...tailLayout}>
-            <Button htmlType="submit">
-              Submit
+            <Button htmlType="submit" style={{ width: '32%' }}>
+              Login
             </Button>
           </Form.Item>
+
+          <Form.Item {...tailLayout2}>
+            <Button onClick={() => navigate("/users/signup", { state: {role: "host"} })}>
+              Signup for HOST
+            </Button>
+          </Form.Item>   
   
-          <Form.Item {...tailLayout}>
-            <Button>
-              <a href="/users/signup">Signup</a>
+          <Form.Item {...tailLayout2}>
+            <Button onClick={() => navigate("/users/signup", { state: {role: "guest"} })}>
+              Signup for Guest
             </Button>
           </Form.Item>     
+
         </Form>
       </Card>
       </div>
@@ -124,5 +131,9 @@ export default function Login() {
   };
     
   const tailLayout = {
-    wrapperCol: { offset: 11}
+    wrapperCol: { offset: 10}
   };
+
+  const tailLayout2 = {
+    wrapperCol: { offset: 10}
+  }

@@ -5,7 +5,8 @@ import { FrownOutlined, SmileOutlined } from "@ant-design/icons";
 import { useAppContext } from "../../store";
 import { axiosInstance } from "../../api";
 import { format } from 'date-fns';
-import moment from 'moment';
+import dayjs from 'dayjs';
+
 import "./BookForm.scss";
 
 export default function BookingForm( {bookFormData} ) {
@@ -16,9 +17,7 @@ export default function BookingForm( {bookFormData} ) {
   const [form] = Form.useForm();
   
   const { postId, availableDates, pricePerNight, maximumOccupancy } = bookFormData;
-  const availableDatesInMoment = availableDates ? availableDates.map(date => moment(date)) : [];
-  console.log(availableDatesInMoment);
-
+  
   const { RangePicker } = DatePicker;
 
   // 숙소 예약 API 요청
@@ -32,35 +31,40 @@ export default function BookingForm( {bookFormData} ) {
     formData.append("checkInDate", format(checkInDate, "yyyy-MM-dd'T'HH:mm:ss"));
     formData.append("checkOutDate", format(checkOutDate, "yyyy-MM-dd'T'HH:mm:ss"));
 
-    if (!isAuthenticated) {
-      notification.open({
-        message: "로그인이 필요합니다!",
-        icon: <FrownOutlined style={{ color: "#ff3333" }} />
-      });
-    } else {
-      try {
-        const apiUrl = `/api/posts/${postId}/book`;
-        const response = await axiosInstance.post(apiUrl, formData, {headers});
 
+ 
+    try {
+      const apiUrl = `/api/posts/${postId}/book`;
+      const response = await axiosInstance.post(apiUrl, formData, {headers});
+
+      notification.open({
+        message: "예약 완료",
+        icon: <SmileOutlined style={{ color: "#108ee9" }} />
+      });
+      window.location.reload(); // 페이지 새로고침
+    } catch (error) {
+      if (error.response) {
+        const {status, data:{errorMessage}} = error.response
         notification.open({
-          message: "예약 완료",
-          icon: <SmileOutlined style={{ color: "#108ee9" }} />
+          message: `${status} 에러`,
+          description: errorMessage,
+          icon: <FrownOutlined style={{ color: "#ff3333" }} />
         });
-      } catch (error) {
-        console.error(error);
       }
     }
   };
+
+  const checkInAvailableDates = availableDates ? availableDates.map(date => dayjs(date)) : [];
 
   // 숙박 기간 계산
   const [dateDifference, setDateDifference] = useState(0);
 
   const handleDateChange = dates => {
-    if (dates && dates.length === 2) {
-      const diff = dates[1].diff(dates[0], 'days');
-      setDateDifference(diff);
-    }
-  };
+  if (dates && dates.length === 2) {
+    const diff = dates[1].diff(dates[0], 'days');
+    setDateDifference(diff);
+  }
+};
 
   // 인원 비용 계산
   const [adults, setAdults] = useState(0);
@@ -111,12 +115,12 @@ export default function BookingForm( {bookFormData} ) {
             {...fieldErrors.dates}
         >
           <RangePicker
-          style={{ width: '100%' }}
-          onChange={handleDateChange}
-          disabledDate={(current) => {
-            return current && !availableDatesInMoment.some(date => current.year() === date.year() && current.month() === date.month() && current.date() === date.date());
-          }}
-        />
+            style={{ width: '100%' }}
+            onChange={handleDateChange}
+            disabledDate={(current) => {
+              return current && (current.isBefore(dayjs(), 'day') || !checkInAvailableDates.some(date => current.year() === date.year() && current.month() === date.month() && current.date() === date.date()));
+            }}
+          />
         </Form.Item>
   
         <Form.Item 

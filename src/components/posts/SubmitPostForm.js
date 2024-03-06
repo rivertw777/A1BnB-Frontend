@@ -7,7 +7,7 @@ import { parseErrorMessages } from "../../utils/forms";
 import { useLocation, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api";
 import { format } from 'date-fns';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 export default function SubmitPostForm({ photoIdList }) {
   const {
@@ -57,19 +57,21 @@ export default function SubmitPostForm({ photoIdList }) {
         message: "게시물 작성 완료",
         icon: <SmileOutlined style={{ color: "#108ee9" }} />
       });
-
       navigate('/');
     } catch (error) {
       if (error.response) {
-        const { status, data: fieldsErrorMessages } = error.response;
-        if (typeof fieldsErrorMessages === "string") {
+        if (error.response) {
+          const {status, data:{errorMessage}} = error.response
           notification.open({
-            message: "서버 오류",
-            description: `에러) ${status} 응답을 받았습니다. 서버 에러를 확인해주세요.`,
+            message: `${status} 에러`,
+            description: (
+              <>
+                <p>{errorMessage}</p>
+                <p>호스트로 로그인해주세요.</p>
+              </>
+            ),
             icon: <FrownOutlined style={{ color: "#ff3333" }} />
           });
-        } else {
-          setFieldErrors(parseErrorMessages(fieldsErrorMessages));
         }
       }
     }
@@ -123,7 +125,7 @@ export default function SubmitPostForm({ photoIdList }) {
         {...fieldErrors.dates}
       >
         <DatePicker.RangePicker 
-          disabledDate={(current) => current && current.isBefore(moment().startOf('day'))}
+          disabledDate={(current) => current && current.isBefore(dayjs(), 'day')}
         />
       </Form.Item>
   
