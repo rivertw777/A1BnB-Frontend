@@ -52,8 +52,8 @@ export default function SearchPostForm({ handleSearch, handleCancel }) {
         const searchCondition = {
             authorName: authorName ? authorName : null,
             location: location ? location : null,
-            checkIn: checkInDate ? format(checkInDate, "yyyy-MM-dd'T'HH:mm:ss") : null,
-            checkOut: checkOutDate ? format(checkOutDate, "yyyy-MM-dd'T'HH:mm:ss") : null,
+            checkInDate: checkInDate ? format(checkInDate, "yyyy-MM-dd'T'HH:mm:ss") : null,
+            checkOutDate: checkOutDate ? format(checkOutDate, "yyyy-MM-dd'T'HH:mm:ss") : null,
             minPrice: minPrice ? minPrice : null,
             maxPrice: maxPrice ? maxPrice : null,
             amenities: amenities ? amenities : null,

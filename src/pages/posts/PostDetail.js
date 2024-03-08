@@ -75,6 +75,7 @@ export default function PostDetail() {
   }
 
   const { authorName, availableDates, location, pricePerNight, photoInfoList, isLike, maximumOccupancy, caption } = postData || {};
+  console.log(isLike);
 
   // Booingform을 위한 데이터
   let bookFormData = {};

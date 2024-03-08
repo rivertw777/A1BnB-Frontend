@@ -12,6 +12,11 @@ function SearchPostResult() {
 
     return (
         <div style={{ marginBottom: "20px" }}>
+            <h1 style={{ 
+                color: '#666666', 
+                fontSize: '25px', 
+                paddingLeft: '30px'
+            }}>검색 결과</h1>
             <PostList apiUrl={apiUrl} condition={searchCondition}/>
         </div>
     );
