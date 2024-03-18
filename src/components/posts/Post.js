@@ -1,15 +1,30 @@
 // 게시물 
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import { Card, Carousel } from "antd";
+import { useAxios, axiosInstance } from "../../api";
 import { HeartOutlined, HeartTwoTone, FrownOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 function Post({ post }) {
 
-  const { postId, authorName, photoUrls, location, pricePerNight, likeCount } = post;
+  const { postId, authorName, photoUrls, location, pricePerNight } = post;
+  const [likeCount, setLikeCount] = useState(0);
 
   // photoUrls 리스트에서 처음 4개의 요소만을 가져와서 새로운 리스트를 만듭니다.
   const limitedPhotoUrls = photoUrls.slice(0, 5);
+
+  // 게시물 좋아요 수 API 호출
+  useEffect(() => {
+    const fetchLikeCount = async () => {
+      try {
+        const response = await axiosInstance.get(`/api/posts/${postId}/like/count`);
+        setLikeCount(response.data.likeCount);
+      } catch (error) {
+
+      }
+    };
+    fetchLikeCount();
+  }, [postId]);
 
   const navigate = useNavigate();
   const goToPostDetail = () => {

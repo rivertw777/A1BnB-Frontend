@@ -13,20 +13,28 @@ function PostList({ apiUrl, condition }) {
   // 조건에 따른 게시물 조회 API 호출
   useEffect(() => {
     const fetchPosts = async () => {
-      const pageConfig = {
-        params: {
-          page: currentPage - 1, // Spring은 페이지 번호가 0부터 시작하므로 1을 빼줍니다.
-          size: pageSize,
-          sort: "createdAt,desc",
-        },
-      };
-
       try {
         let data;
+        // 조건 조회
         if (condition) {
+          const pageConfig = {
+            params: {
+              page: currentPage - 1, 
+              size: pageSize,
+            },
+          };
           const response = await axiosInstance.post(apiUrl, condition, pageConfig);
           data = response.data;
+        console.log(data);
+        // 일반 조회 
         } else {
+          const pageConfig = {
+            params: {
+              page: currentPage - 1, 
+              size: pageSize,
+              sort: "createdAt,desc",
+            },
+          };
           const response = await axiosInstance.get(apiUrl, pageConfig);
           data = response.data;
         }

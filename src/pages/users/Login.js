@@ -102,23 +102,17 @@ export default function Login() {
           </Form.Item>
   
           <Form.Item {...tailLayout}>
-            <Button htmlType="submit" style={{ width: '32%' }}>
+            <Button htmlType="submit">
               Login
             </Button>
           </Form.Item>
 
-          <Form.Item {...tailLayout2}>
-            <Button onClick={() => navigate("/users/signup", { state: {role: "host"} })}>
-              Signup for HOST
+          <Form.Item {...tailLayout}>
+            <Button>
+              <a href="/users/signup">Signup</a>
             </Button>
           </Form.Item>   
   
-          <Form.Item {...tailLayout2}>
-            <Button onClick={() => navigate("/users/signup", { state: {role: "guest"} })}>
-              Signup for Guest
-            </Button>
-          </Form.Item>     
-
         </Form>
       </Card>
       </div>
@@ -131,9 +125,5 @@ export default function Login() {
   };
     
   const tailLayout = {
-    wrapperCol: { offset: 10}
+    wrapperCol: { offset: 11}
   };
-
-  const tailLayout2 = {
-    wrapperCol: { offset: 10}
-  }

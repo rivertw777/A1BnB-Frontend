@@ -29,9 +29,6 @@ function AppLayout({ children }) {
             A1BnB
           </Button>
         </h1>
-        <div className="search">
-          <Input.Search />
-        </div>
         <div className="topnav">
           <Button
             type="link"

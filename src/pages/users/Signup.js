@@ -11,7 +11,6 @@ export default function Signup() {
   const location = useLocation();
   const [fieldErrors, setFieldErrors] = useState({});
 
-  const role = location.state.role || null;
 
   // 회원가입 API 요청
   const onFinish = async (values) => {
@@ -19,7 +18,7 @@ export default function Signup() {
 
     setFieldErrors({});
 
-    const data = { name, password, role };
+    const data = { name, password };
     try {
       await axiosInstance.post("/api/users", data);
 

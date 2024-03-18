@@ -2,14 +2,19 @@
 import React, { useState } from "react";
 import { Button, Modal, Dropdown, Menu, Typography } from "antd";
 import { FilterOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { useLocation, useNavigate } from "react-router-dom";
 import PostList from "../components/posts/PostList";
 import SearchForm from "../components/posts/SearchPostForm";
 
 function Home() {
   const { Title } = Typography;
+  const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState("최신순");
-  const handleOptionChange = (e) => {
-    setSelectedOption(e.key);
+  
+  const handleOptionChange = ({ key }) => {
+    if (key === "인기순") {
+      navigate("posts/sort");
+    }
   };
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -33,9 +38,6 @@ function Home() {
       </Menu.Item>
       <Menu.Item key="인기순">
         인기순
-      </Menu.Item>
-      <Menu.Item key="가격순">
-        가격순
       </Menu.Item>
     </Menu>
   );

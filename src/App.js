@@ -11,6 +11,8 @@ import SubmitPost from './pages/posts/SubmitPost';
 import LoginRequiredRoute from './utils/LoginRequiredRoute';
 import SearchPostResult from './pages/posts/SearchPostResult';
 import PostDetail from './pages/posts/PostDetail';
+import SortedPostResult from './pages/posts/SortedPostResult';
+
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
         <Route path="/posts/submit" element={<LoginRequiredRoute><SubmitPost /></LoginRequiredRoute>} />
         <Route path="/posts/search" element={<SearchPostResult />} />
         <Route path="/posts/:postId" element={<PostDetail />} />
+        <Route path="/posts/sort" element={<SortedPostResult />} />
       </Routes>
     </AppLayout>
   )

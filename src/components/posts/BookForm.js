@@ -31,8 +31,6 @@ export default function BookingForm( {bookFormData} ) {
     formData.append("checkInDate", format(checkInDate, "yyyy-MM-dd'T'HH:mm:ss"));
     formData.append("checkOutDate", format(checkOutDate, "yyyy-MM-dd'T'HH:mm:ss"));
 
-
- 
     try {
       const apiUrl = `/api/posts/${postId}/book`;
       const response = await axiosInstance.post(apiUrl, formData, {headers});

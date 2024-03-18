@@ -13,46 +13,58 @@ const { Title } = Typography;
 export default function PostDetail() {
   const { postId } = useParams();
   const [postData, setPostData] = useState({});
+  const [postLikeCheck, setPostLikeCheck] = useState({});
+
   const [visible, setVisible] = useState(false);
   const [modalImage, setModalImage] = useState(null);
   const { store: { jwtToken, isAuthenticated } } = useAppContext();
   const headers = { Authorization: `Bearer ${jwtToken}` };
 
   // 게시물 상세 API 요청
-  const fetchPostData = async () => {
-    const apiUrl = `/api/posts/${postId}`;
-    try {
-      // 인증 X
-      if (!isAuthenticated) {
+  useEffect(() => {
+    const fetchPostData = async () => {
+      const apiUrl = `/api/posts/${postId}`;
+      try {
         const response = await axiosInstance.get(apiUrl);
         setPostData(response.data);
-      // 인증 O
-      } else {
-        const response = await axiosInstance.post(apiUrl, {}, {headers});
-        setPostData(response.data);
+      } catch (error) {
+
       }
-    } catch (error) {
-      console.error("Error fetching post data: ", error);
-    }
-  }
-  
-  useEffect(() => {
+    };
     fetchPostData();
+  }, []);
+
+
+  // 회원 게시물 좋아요 여부 확인 API 요청
+  const fetchPostLike = async () => {
+    if (isAuthenticated) {
+      const apiUrl = `/api/posts/${postId}/like/check`;
+      try {
+        const response = await axiosInstance.get(apiUrl, { headers });
+        setPostLikeCheck(response.data);
+      } catch (error) {
+        // 에러 처리 코드
+      }
+    } else {
+      setPostLikeCheck({isLike:false});
+    }
+  };
+
+  useEffect(() => {
+    fetchPostLike();
   }, [postId]);
 
   // 게시물 좋아요 API 요청
-  const handleLike = async ({isLike}) => { // 매개변수를 객체가 아닌 단일 값으로 변경
-
+  const handleLike = async ({isLike}) => { 
     const apiUrl = `/api/posts/${postId}/like`;
     const method = isLike ? "POST" : "DELETE";
-
     try {
       await axiosInstance({
         url: apiUrl,
         method,
         headers
       });
-      fetchPostData();
+      fetchPostLike();
     } catch (error) {
       if (error.response) {
         const {status, data:{errorMessage}} = error.response
@@ -65,6 +77,7 @@ export default function PostDetail() {
     }
   };
 
+
   const handleImageClick = (image) => {
     setModalImage(image);
     setVisible(true);
@@ -74,11 +87,12 @@ export default function PostDetail() {
     setVisible(false);
   }
 
-  const { authorName, availableDates, location, pricePerNight, photoInfoList, isLike, maximumOccupancy, caption } = postData || {};
-  console.log(isLike);
+  const { authorName, availableDates, location, pricePerNight, photoInfoList, maximumOccupancy, caption } = postData || {};
+  const { isLike } = postLikeCheck || {};
 
   // Booingform을 위한 데이터
   let bookFormData = {};
+
   // PropertyInfo를 위한 데이터
   let propertyInfoData = {};
   if (postData) {
