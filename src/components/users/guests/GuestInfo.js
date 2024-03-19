@@ -63,7 +63,7 @@ export default function GuestInfo() {
                       />
                   </div>
                   <div style={{ color: '#666666', fontWeight: 'bold'}}>
-                    좋아요
+                    찜 목록
                   </div>
               </div>
               <div style={{ textAlign: 'center', width: '100%' }}>

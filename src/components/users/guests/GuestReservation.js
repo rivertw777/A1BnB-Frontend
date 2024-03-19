@@ -6,7 +6,7 @@ import { axiosInstance } from "../../../api";
 import { useAppContext } from "../../../store";
 import moment from 'moment';
 
-export default function ReservationCard({ reservation }) {
+export default function GuestReservation({ reservation }) {
     const { store: { jwtToken } } = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
     const navigate = useNavigate();
@@ -53,11 +53,11 @@ export default function ReservationCard({ reservation }) {
             >
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '25px' }}>
                     {thumbnail && (
-                        <img src={thumbnail} alt="숙소 이미지" style={{ width: '200px', marginRight: '30px', borderRadius: '10px' }} />
+                        <img src={thumbnail} alt="숙소 이미지" style={{ width: '220px', height: '150px', marginRight: '30px', borderRadius: '10px' }} />
                     )}
                     <div style={{ flexGrow: 1 }}>
                         <p>위치: {location}</p>
-                        <strong><p>결제 금액: {paymentAmount}₩</p></strong>
+                        <strong><p>결제 금액: {paymentAmount?.toLocaleString()}₩</p></strong>
                         <p>호스트: {hostName}</p>
                     </div>
                 </div>

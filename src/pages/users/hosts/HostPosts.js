@@ -2,37 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col } from 'antd'; 
 import { axiosInstance } from "../../../api";
 import { useAppContext } from "../../../store";
-import HostReservation from "../../../components/users/hosts/HostReservation";
+import HostPost from "../../../components/users/hosts/HostPost";
 
-const HostReservations = () => {
+const HostPosts = () => {
     const { store: { jwtToken } } = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
-    const [reservations, setReservations] = useState([]);
+    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        const fetchReservations = async () => {
+        const fetchPosts = async () => {
             try {
-                const apiUrl = '/api/users/hosts/reservations';
+                const apiUrl = '/api/users/hosts/posts';
                 const response = await axiosInstance.get(apiUrl, {headers});
-                setReservations(response.data);
+                setPosts(response.data);
             } catch (error) {
                 // 오류 처리
                 console.error("예약 정보 조회에 실패했습니다.", error);
             }
         };
         
-        fetchReservations();
+        fetchPosts();
     }, []);
 
     return (
         <div style={{ padding: '30px', display: 'flex', justifyContent: 'center' }}>
             <div style={{ maxWidth: '100%', width: '100%' }}>
-                {reservations.length > 0 ? (
+                {posts.length > 0 ? (
                     <Row gutter={[0, 16]} justify="center" style={{ width: '100%' }}>
-                        {reservations.map((reservation, index) => (
+                        {posts.map((post, index) => (
                             <Col span={10} key={index} style={{ margin: '0 -30px' }}>
                                 <div style={{ display: 'flex', justifyContent: 'center', minWidth: '470px' }}>
-                                    <HostReservation reservation={reservation} />
+                                    <HostPost post={post} />
                                 </div>
                             </Col>
                         ))}
@@ -49,7 +49,7 @@ const HostReservations = () => {
                                 marginBottom: '50px'
                             }}
                         >
-                            예약이 없습니다..
+                            등록한 숙소가 없습니다..
                         </div>
                     </div>
                 )}
@@ -59,4 +59,4 @@ const HostReservations = () => {
     
 }
 
-export default HostReservations;
+export default HostPosts;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col } from 'antd'; 
 import { axiosInstance } from "../../../api";
 import { useAppContext } from "../../../store";
-import GuestReservationCard from "../../../components/users/guests/GuestReservationCard";
+import GuestReservation from "../../../components/users/guests/GuestReservation";
 
 const GuestReservations = () => {
     const { store: { jwtToken } } = useAppContext();
@@ -26,27 +26,27 @@ const GuestReservations = () => {
 
     return (
         <div style={{ padding: '30px', display: 'flex', justifyContent: 'center' }}>
-            <div>
+            <div style={{ maxWidth: '100%', width: '100%' }}>
                 {reservations.length > 0 ? (
-                    <Row gutter={[16, 16]} justify="center">
+                    <Row gutter={[0, 16]} justify="center" style={{ width: '100%' }}>
                         {reservations.map((reservation, index) => (
-                            <Col span={24} key={index}>
-                                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <GuestReservationCard reservation={reservation} />
+                            <Col span={10} key={index} style={{ margin: '0 -30px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'center', minWidth: '470px' }}>
+                                    <GuestReservation reservation={reservation} />
                                 </div>
                             </Col>
                         ))}
                     </Row>
                 ) : (
-                    <div style={{ width: '100%' }}> {/* 외부 div의 너비를 100%로 설정 */}
-                        <div 
-                            style={{ 
-                                color: '#666666', 
-                                fontSize: '30px', 
-                                fontWeight: 'bold', 
+                    <div style={{ width: '100%' }}>
+                        <div
+                            style={{
+                                color: '#666666',
+                                fontSize: '30px',
+                                fontWeight: 'bold',
                                 textAlign: 'left',
                                 marginTop: '50px',
-                                marginBottom: '50px' 
+                                marginBottom: '50px'
                             }}
                         >
                             예약이 없습니다..

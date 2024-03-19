@@ -41,6 +41,7 @@ export default function HostInfo() {
                   <div>
                       <Button 
                           type="primary" 
+                          onClick={() => navigate("/users/hosts/posts")}
                           icon={<HomeOutlined style={{ fontSize: '30px' }}/>} 
                           style={{ 
                               width: '75px',

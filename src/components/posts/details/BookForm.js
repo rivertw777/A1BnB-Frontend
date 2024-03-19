@@ -20,7 +20,7 @@ export default function BookingForm( {bookFormData} ) {
   
   const { RangePicker } = DatePicker;
 
-  const [isSubmitting, setIsSubmitting] = useState(false); // 요청 상태 추적을 위한 상태
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 숙소 예약 API 요청
   const onFinish = async fieldValues => {
@@ -60,17 +60,21 @@ export default function BookingForm( {bookFormData} ) {
     }
   };
 
+  const isDisabledDate = (current) => {
+    return current && (current.isBefore(dayjs(), 'day') || !checkInAvailableDates.some(date => current.year() === date.year() && current.month() === date.month() && current.date() === date.date()));
+  };
+
   const checkInAvailableDates = availableDates ? availableDates.map(date => dayjs(date)) : [];
 
   // 숙박 기간 계산
   const [dateDifference, setDateDifference] = useState(0);
 
   const handleDateChange = dates => {
-  if (dates && dates.length === 2) {
-    const diff = dates[1].diff(dates[0], 'days');
-    setDateDifference(diff);
-  }
-};
+    if (dates && dates.length === 2) {
+      const diff = dates[1].diff(dates[0], 'days');
+      setDateDifference(diff);
+    }
+  };
 
   // 인원 비용 계산
   const [adults, setAdults] = useState(0);
@@ -113,6 +117,15 @@ export default function BookingForm( {bookFormData} ) {
                         if (value[0].isSame(value[1], 'day')) {
                             return Promise.reject(new Error("체크인과 체크아웃 날짜는 같을 수 없습니다."));
                         }
+                        const startDate = value[0];
+                        const endDate = value[1];
+                        let day = startDate.clone();
+                        while (day.isBefore(endDate, 'day')) {
+                          day = day.add(1, 'day');
+                          if (isDisabledDate(day)) {
+                            return Promise.reject(new Error("예약할 수 없는 날짜가 포함되어 있습니다."));
+                          }
+                        }
                         return Promise.resolve();
                     },
                 }),
@@ -123,9 +136,7 @@ export default function BookingForm( {bookFormData} ) {
           <RangePicker
             style={{ width: '100%' }}
             onChange={handleDateChange}
-            disabledDate={(current) => {
-              return current && (current.isBefore(dayjs(), 'day') || !checkInAvailableDates.some(date => current.year() === date.year() && current.month() === date.month() && current.date() === date.date()));
-            }}
+            disabledDate={isDisabledDate}
           />
         </Form.Item>
   
