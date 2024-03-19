@@ -5,8 +5,8 @@ import { axiosInstance } from "../../api";
 import { Card, Row, Col, Typography, Modal, notification } from 'antd';
 import { HeartOutlined, HeartTwoTone, FrownOutlined } from "@ant-design/icons";
 import { useAppContext } from "../../store";
-import BookForm from "../../components/posts/BookForm";
-import PropertyInfo from "../../components/posts/PropertyInfo";
+import BookForm from "../../components/posts/details/BookForm";
+import PropertyInfo from "../../components/posts/details/PropertyInfo";
 
 const { Title } = Typography;
 
@@ -33,7 +33,6 @@ export default function PostDetail() {
     };
     fetchPostData();
   }, []);
-
 
   // 회원 게시물 좋아요 여부 확인 API 요청
   const fetchPostLike = async () => {
@@ -87,7 +86,7 @@ export default function PostDetail() {
     setVisible(false);
   }
 
-  const { authorName, availableDates, location, pricePerNight, photoInfoList, maximumOccupancy, caption } = postData || {};
+  const { hostName, availableDates, location, pricePerNight, photoInfoList, maximumOccupancy, caption } = postData || {};
   const { isLike } = postLikeCheck || {};
 
   // Booingform을 위한 데이터
@@ -104,7 +103,7 @@ export default function PostDetail() {
     <div>
       <Card style={{ width: '80%', margin: '16px auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: "30px" }}>
-          <Title style={{ marginTop: "0px", color: '#666666' }}>호스트 {authorName}님의 숙소</Title>
+          <Title style={{ marginTop: "0px", color: '#666666' }}>호스트 {hostName}님의 숙소</Title>
           {isLike ? (
             <HeartTwoTone
               twoToneColor="#eb2f96"

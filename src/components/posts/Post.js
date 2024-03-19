@@ -6,7 +6,7 @@ import { HeartOutlined, HeartTwoTone, FrownOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 function Post({ post }) {
-
+  const navigate = useNavigate();
   const { postId, authorName, photoUrls, location, pricePerNight } = post;
   const [likeCount, setLikeCount] = useState(0);
 
@@ -26,7 +26,6 @@ function Post({ post }) {
     fetchLikeCount();
   }, [postId]);
 
-  const navigate = useNavigate();
   const goToPostDetail = () => {
     navigate(`/posts/${postId}`); 
   };

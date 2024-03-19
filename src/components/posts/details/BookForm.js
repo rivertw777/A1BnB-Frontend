@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button, DatePicker, Form, notification, InputNumber } from 'antd';
 import { FrownOutlined, SmileOutlined } from "@ant-design/icons";
-import { useAppContext } from "../../store";
-import { axiosInstance } from "../../api";
+import { useAppContext } from "../../../store";
+import { axiosInstance } from "../../../api";
 import { format } from 'date-fns';
 import dayjs from 'dayjs';
 
@@ -20,8 +20,13 @@ export default function BookingForm( {bookFormData} ) {
   
   const { RangePicker } = DatePicker;
 
+  const [isSubmitting, setIsSubmitting] = useState(false); // 요청 상태 추적을 위한 상태
+
   // 숙소 예약 API 요청
   const onFinish = async fieldValues => {
+    if (isSubmitting) return; // 요청이 이미 진행 중이면 추가 요청을 방지
+
+    setIsSubmitting(true); // 요청 시작을 표시
     const { dates } = fieldValues;
 
     const checkInDate = dates[0].toDate(); 
@@ -43,13 +48,15 @@ export default function BookingForm( {bookFormData} ) {
       window.location.reload(); // 페이지 새로고침
     } catch (error) {
       if (error.response) {
-        const {status, data:{errorMessage}} = error.response
+        const {status, data:{errorMessage}} = error.response;
         notification.open({
           message: `${status} 에러`,
           description: errorMessage,
           icon: <FrownOutlined style={{ color: "#ff3333" }} />
         });
       }
+    } finally {
+      setIsSubmitting(false); // 요청이 완료되었거나 오류가 발생했을 때 요청 상태를 초기화
     }
   };
 

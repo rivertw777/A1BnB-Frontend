@@ -1,8 +1,8 @@
 // 내 정보 페이지
 import React, { useState, useEffect } from 'react';
 import { Button, Card } from 'antd';
-import HostInfo from "../../components/users/HostInfo";
-import GuestInfo from "../../components/users/GuestInfo";
+import HostInfo from "../../components/users/hosts/HostInfo";
+import GuestInfo from "../../components/users/guests/GuestInfo";
 import './MyPage.scss'; 
 
 export default function MyPage() {

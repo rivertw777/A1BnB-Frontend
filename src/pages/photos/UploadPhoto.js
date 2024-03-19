@@ -11,7 +11,7 @@ export default function UploadPhoto() {
         title={
           <span style={{ color: '#666666' }}>숙소 사진을 5장 등록해주세요<br />AI가 등록한 사진을 분석해드려요!</span>
         }
-        style={{ width: '700px', textAlign: 'center' }} 
+        style={{ width: '800px', textAlign: 'center' }} 
       >
         <UploadPhotoForm />
       </Card>

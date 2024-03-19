@@ -33,7 +33,7 @@ export default function SearchPostForm({ handleSearch, handleCancel }) {
 
     const handleFinish = async fieldValues => {
         const {
-            authorName,
+            hostName,
             location,
             dates,
             minPrice,
@@ -50,7 +50,7 @@ export default function SearchPostForm({ handleSearch, handleCancel }) {
         }
         
         const searchCondition = {
-            authorName: authorName ? authorName : null,
+            hostName: hostName ? hostName : null,
             location: location ? location : null,
             checkInDate: checkInDate ? format(checkInDate, "yyyy-MM-dd'T'HH:mm:ss") : null,
             checkOutDate: checkOutDate ? format(checkOutDate, "yyyy-MM-dd'T'HH:mm:ss") : null,
@@ -69,7 +69,7 @@ export default function SearchPostForm({ handleSearch, handleCancel }) {
         <Form {...layout} onFinish={handleFinish} autoComplete={"false"}>
           <Form.Item
             label="작성자 이름"
-            name="authorName"
+            name="hostName"
           >
             <Input />
           </Form.Item>
