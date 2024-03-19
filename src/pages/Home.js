@@ -1,7 +1,7 @@
 // 홈 페이지
 import React, { useState } from "react";
 import { Button, Modal, Dropdown, Menu, Typography } from "antd";
-import { FilterOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { FilterOutlined, UnorderedListOutlined, SearchOutlined } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import PostList from "../components/posts/PostList";
 import SearchForm from "../components/posts/SearchPostForm";
@@ -59,7 +59,7 @@ function Home() {
         </Dropdown>
         <Button
           type="text"
-          icon={<FilterOutlined />}
+          icon={<SearchOutlined />}
           shape="round"
           style={{ marginRight: "8px", borderRadius: "8px", width: "100px", height: "40px", border: "1px solid grey" }}
           onClick={showModal}

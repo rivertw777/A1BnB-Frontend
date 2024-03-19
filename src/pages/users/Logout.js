@@ -6,7 +6,6 @@ import { notification } from "antd";
 import { MehOutlined } from "@ant-design/icons";
 import { useAxios, axiosInstance } from "../../api";
 
-
 export default function Logout() {
   const { dispatch } = useAppContext();
   const navigate = useNavigate();

@@ -30,6 +30,7 @@ export default function BookingForm( {bookFormData} ) {
     const formData = new FormData();
     formData.append("checkInDate", format(checkInDate, "yyyy-MM-dd'T'HH:mm:ss"));
     formData.append("checkOutDate", format(checkOutDate, "yyyy-MM-dd'T'HH:mm:ss"));
+    formData.append("paymentAmount", totalPrice);
 
     try {
       const apiUrl = `/api/posts/${postId}/book`;

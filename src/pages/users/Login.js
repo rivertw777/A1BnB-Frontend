@@ -102,13 +102,13 @@ export default function Login() {
           </Form.Item>
   
           <Form.Item {...tailLayout}>
-            <Button htmlType="submit">
+            <Button htmlType="submit" style={{ width: '20%' }}>
               Login
             </Button>
           </Form.Item>
 
           <Form.Item {...tailLayout}>
-            <Button>
+            <Button style={{ width: '20%' }}>
               <a href="/users/signup">Signup</a>
             </Button>
           </Form.Item>   

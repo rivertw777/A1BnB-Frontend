@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import AppLayout from './components/AppLayout';
 import Login from './pages/users/Login';
 import Logout from './pages/users/Logout';
+import MyPage from './pages/users/MyPage';
 import Home from './pages/Home';
 import Signup from './pages/users/Signup';
 import UploadPhoto from './pages/photos/UploadPhoto';
@@ -19,6 +20,8 @@ function App() {
     <AppLayout>
       <Routes>
         <Route path="/" element={<Home />} />
+
+        <Route path="/users" element={<LoginRequiredRoute><MyPage /></LoginRequiredRoute>} />
         <Route path="/users/signup" element={<Signup />} />
         <Route path="/users/login" element={<Login />} />
         <Route path="/users/logout" element={<LoginRequiredRoute><Logout /></LoginRequiredRoute>} />

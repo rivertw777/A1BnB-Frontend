@@ -104,6 +104,7 @@ export default function UploadPhotoForm() {
   };
 
   return (
+    <div style={{ marginTop: "30px" }}>
     <Spin spinning={isLoading} size="large" tip={<div style={{ fontSize: "18px", fontWeight: "bold" }}>사진을 분석중입니다.<br />잠시만 기다려주세요.</div>}>
       <Form
         labelCol={{ span: 8 }}
@@ -154,5 +155,6 @@ export default function UploadPhotoForm() {
         </Modal>
       </Form>
     </Spin>
+    </div>
   );
 }
