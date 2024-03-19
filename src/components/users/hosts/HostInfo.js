@@ -4,12 +4,13 @@ import { Button, Card } from 'antd';
 import { HomeOutlined, CalendarOutlined, MessageOutlined } from "@ant-design/icons";
 import { axiosInstance } from "../../../api";
 import { useAppContext } from "../../../store";
-
+import { useNavigate } from "react-router-dom";
 
 export default function HostInfo() {
     const { store: { jwtToken } } = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
     const [settleAmount, setSettleAmount] = useState({});
+    const navigate = useNavigate();
 
     // 내 정산 금액 조회 API 요청
     useEffect(() => {
@@ -61,6 +62,7 @@ export default function HostInfo() {
                   <div>
                       <Button 
                           type="primary" 
+                          onClick={() => navigate("/users/hosts/reservations")}
                           icon={<CalendarOutlined style={{ fontSize: '30px' }}/>} 
                           style={{ 
                               width: '75px',

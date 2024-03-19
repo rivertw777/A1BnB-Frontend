@@ -4,21 +4,20 @@ import { axiosInstance } from "../../../api";
 import { useAppContext } from "../../../store";
 import GuestReservationCard from "../../../components/users/guests/GuestReservationCard";
 
-const GuestReservations = () => { 
+const GuestReservations = () => {
     const { store: { jwtToken } } = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
     const [reservations, setReservations] = useState([]);
 
-    // 게스트 예약 정보 조회 API 호출
     useEffect(() => {
         const fetchReservations = async () => {
             try {
                 const apiUrl = '/api/users/guests/reservations';
                 const response = await axiosInstance.get(apiUrl, {headers});
                 setReservations(response.data);
-                console.log(reservations);
             } catch (error) {
-
+                // 오류 처리
+                console.error("예약 정보 조회에 실패했습니다.", error);
             }
         };
         
@@ -28,18 +27,36 @@ const GuestReservations = () => {
     return (
         <div style={{ padding: '30px', display: 'flex', justifyContent: 'center' }}>
             <div>
-                <Row gutter={[16, 16]} justify="center">
-                    {reservations.map((reservation, index) => (
-                        <Col span={24} key={index}>
-                            <div style={{ display: 'flex', justifyContent: 'center' }}> {/* 여기에 스타일을 추가합니다 */}
-                                <GuestReservationCard reservation={reservation} />
-                            </div>
-                        </Col>
-                    ))}
-                </Row>
+                {reservations.length > 0 ? (
+                    <Row gutter={[16, 16]} justify="center">
+                        {reservations.map((reservation, index) => (
+                            <Col span={24} key={index}>
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <GuestReservationCard reservation={reservation} />
+                                </div>
+                            </Col>
+                        ))}
+                    </Row>
+                ) : (
+                    <div style={{ width: '100%' }}> {/* 외부 div의 너비를 100%로 설정 */}
+                        <div 
+                            style={{ 
+                                color: '#666666', 
+                                fontSize: '30px', 
+                                fontWeight: 'bold', 
+                                textAlign: 'left',
+                                marginTop: '50px',
+                                marginBottom: '50px' 
+                            }}
+                        >
+                            예약이 없습니다..
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
+    
 }
 
-export default GuestReservations; 
+export default GuestReservations;

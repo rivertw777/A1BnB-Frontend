@@ -3,7 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { axiosInstance } from "../../api";
 import { Card, Row, Col, Typography, Modal, notification } from 'antd';
-import { HeartOutlined, HeartTwoTone, FrownOutlined } from "@ant-design/icons";
+import { HeartOutlined, HeartTwoTone, FrownOutlined, SendOutlined } from "@ant-design/icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useAppContext } from "../../store";
 import BookForm from "../../components/posts/details/BookForm";
 import PropertyInfo from "../../components/posts/details/PropertyInfo";
@@ -104,6 +106,9 @@ export default function PostDetail() {
       <Card style={{ width: '80%', margin: '16px auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: "30px" }}>
           <Title style={{ marginTop: "0px", color: '#666666' }}>호스트 {hostName}님의 숙소</Title>
+          <FontAwesomeIcon icon={faPaperPlane} 
+            style={{ fontSize: '24px', marginLeft: '550px', color: 'grey' }}
+          />
           {isLike ? (
             <HeartTwoTone
               twoToneColor="#eb2f96"

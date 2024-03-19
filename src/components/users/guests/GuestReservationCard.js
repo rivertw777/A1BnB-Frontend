@@ -51,7 +51,7 @@ export default function ReservationCard({ reservation }) {
                 style={{ marginBottom: '20px', width: '470px', color: '#666666', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)' }}
                 onClick={goToPostDetail} 
             >
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '25px' }}>
                     {thumbnail && (
                         <img src={thumbnail} alt="숙소 이미지" style={{ width: '200px', marginRight: '30px', borderRadius: '10px' }} />
                     )}
@@ -61,7 +61,7 @@ export default function ReservationCard({ reservation }) {
                         <p>호스트: {hostName}</p>
                     </div>
                 </div>
-                <div style={{ marginTop: '5px', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
+                <div style={{ marginTop: '20px', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
                     <Button 
                         onClick={showCancelModal} 
                         style={{ 
@@ -74,9 +74,25 @@ export default function ReservationCard({ reservation }) {
                             display: 'flex', // Flexbox 레이아웃을 사용합니다.
                             justifyContent: 'center', // 수평 방향에서 중앙 정렬합니다.
                             alignItems: 'center',
+                            marginRight: '80px'
                         }}
                     >
                         예약 취소
+                    </Button>
+                    <Button 
+                        style={{ 
+                            backgroundColor: '#7788E8', 
+                            borderColor: '#7788E8', 
+                            color: 'white', 
+                            fontSize: '18px', 
+                            width: '90px', 
+                            height: '45px', 
+                            display: 'flex', // Flexbox 레이아웃을 사용합니다.
+                            justifyContent: 'center', // 수평 방향에서 중앙 정렬합니다.
+                            alignItems: 'center',
+                        }}
+                    >
+                        대화하기
                     </Button>
                 </div>
             </Card>
