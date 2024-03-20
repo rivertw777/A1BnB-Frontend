@@ -92,7 +92,7 @@ export default function GuestReservation({ reservation }) {
                             alignItems: 'center',
                         }}
                     >
-                        채팅
+                        대화하기
                     </Button>
                 </div>
             </Card>

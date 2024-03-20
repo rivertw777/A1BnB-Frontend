@@ -85,7 +85,7 @@ export default function PostDetail() {
     setVisible(false);
   }
 
-  const { hostName, availableDates, location, pricePerNight, photoInfoList, maximumOccupancy, caption } = postData || {};
+  const { hostName, unavailableDates, location, pricePerNight, photoInfoList, maximumOccupancy, caption } = postData || {};
   const { isLike } = postLikeCheck || {};
 
   // Booingform을 위한 데이터
@@ -94,7 +94,7 @@ export default function PostDetail() {
   // PropertyInfo를 위한 데이터
   let propertyInfoData = {};
   if (postData) {
-    bookFormData = { postId, availableDates, pricePerNight, maximumOccupancy };
+    bookFormData = { postId, unavailableDates, pricePerNight, maximumOccupancy };
     propertyInfoData = { maximumOccupancy, photoInfoList, location, caption };
   }
 

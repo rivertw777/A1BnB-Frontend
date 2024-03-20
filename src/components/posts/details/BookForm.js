@@ -5,6 +5,7 @@ import { FrownOutlined, SmileOutlined } from "@ant-design/icons";
 import { useAppContext } from "../../../store";
 import { axiosInstance } from "../../../api";
 import { format } from 'date-fns';
+import moment from 'moment';
 import dayjs from 'dayjs';
 
 import "./BookForm.scss";
@@ -16,8 +17,20 @@ export default function BookingForm( {bookFormData} ) {
   const [fieldErrors, setFieldErrors] = useState({});
   const [form] = Form.useForm();
   
-  const { postId, availableDates, pricePerNight, maximumOccupancy } = bookFormData;
-  
+  const { postId, unavailableDates, pricePerNight, maximumOccupancy } = bookFormData;
+
+  // 문자열 배열인 unavailableDates를 Date 객체 배열로 변환
+  const disabledDates = unavailableDates ? unavailableDates.map(dateStr => moment(dateStr).toDate()) : [];
+
+  // 특정 날짜가 비활성화되어야 하는지 결정하는 함수
+  const disabledDate = (current) => {
+    // 현재 날짜 또는 그 이전 날짜를 비활성화할지 여부를 결정
+    // 오늘 날짜보다 이전이거나, 비활성화된 날짜와 같은 경우 true 반환
+    return current.isBefore(moment().startOf('day')) || disabledDates.some(disabledDate =>
+      current.isSame(moment(disabledDate), 'day')
+    );
+  };
+
   const { RangePicker } = DatePicker;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -60,15 +73,8 @@ export default function BookingForm( {bookFormData} ) {
     }
   };
 
-  const isDisabledDate = (current) => {
-    return current && (current.isBefore(dayjs(), 'day') || !checkInAvailableDates.some(date => current.year() === date.year() && current.month() === date.month() && current.date() === date.date()));
-  };
-
-  const checkInAvailableDates = availableDates ? availableDates.map(date => dayjs(date)) : [];
-
   // 숙박 기간 계산
   const [dateDifference, setDateDifference] = useState(0);
-
   const handleDateChange = dates => {
     if (dates && dates.length === 2) {
       const diff = dates[1].diff(dates[0], 'days');
@@ -106,29 +112,38 @@ export default function BookingForm( {bookFormData} ) {
             label="체크인/체크아웃"
             name="dates"
             rules={[
-                ({ getFieldValue }) => ({
-                    validator(_, value) {
-                        if (!value || value.length === 0) {
-                            return Promise.resolve();
-                        }
-                        if (value.length === 1) {
-                            return Promise.reject(new Error("두 개의 날짜를 선택해주세요."));
-                        }
-                        if (value[0].isSame(value[1], 'day')) {
-                            return Promise.reject(new Error("체크인과 체크아웃 날짜는 같을 수 없습니다."));
-                        }
-                        const startDate = value[0];
-                        const endDate = value[1];
-                        let day = startDate.clone();
-                        while (day.isBefore(endDate, 'day')) {
-                          day = day.add(1, 'day');
-                          if (isDisabledDate(day)) {
-                            return Promise.reject(new Error("예약할 수 없는 날짜가 포함되어 있습니다."));
-                          }
-                        }
-                        return Promise.resolve();
-                    },
-                }),
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || value.length === 0) {
+                    return Promise.resolve();
+                  }
+                  if (value.length === 1) {
+                    return Promise.reject(new Error("두 개의 날짜를 선택해주세요."));
+                  }
+                  if (value[0].isSame(value[1], 'day')) {
+                    return Promise.reject(new Error("체크인과 체크아웃 날짜는 같을 수 없습니다."));
+                  }
+                  // 체크인 날짜부터 체크아웃 날짜까지 모든 날짜 생성
+                  let day = value[0];
+                  const endDay = value[1];
+                  const datesInRange = [];
+                  while (day.isBefore(endDay)) {
+                    datesInRange.push(day);
+                    day = day.clone().add(1, 'days');
+                  }
+                  // 비활성화된 날짜가 포함되어 있는지 확인
+                  const isDisabledDateIncluded = datesInRange.some(date => 
+                    disabledDates.some(disabledDate => 
+                    date.isSame(moment(disabledDate), 'day')
+                    )
+                  );
+                  if (isDisabledDateIncluded) {
+                    // 비활성화된 날짜가 포함된 경우 에러 메시지 반환
+                    return Promise.reject(new Error("예약할 수 없는 날짜가 포함되어 있습니다."));
+                  }
+                  return Promise.resolve();
+                },
+              }),
             ]}
             hasFeedback
             {...fieldErrors.dates}
@@ -136,7 +151,7 @@ export default function BookingForm( {bookFormData} ) {
           <RangePicker
             style={{ width: '100%' }}
             onChange={handleDateChange}
-            disabledDate={isDisabledDate}
+            disabledDate={disabledDate}
           />
         </Form.Item>
   

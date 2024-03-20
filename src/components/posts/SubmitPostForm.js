@@ -3,11 +3,8 @@ import React, { useState } from "react";
 import { Button, Form, Input, DatePicker, InputNumber, notification, Select } from "antd";
 import { FrownOutlined, PlusOutlined, SmileOutlined } from "@ant-design/icons";
 import { useAppContext } from "../../store";
-import { parseErrorMessages } from "../../utils/forms";
 import { useLocation, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api";
-import { format } from 'date-fns';
-import dayjs from 'dayjs';
 
 export default function SubmitPostForm({ photoIdList }) {
   const {
@@ -30,19 +27,13 @@ export default function SubmitPostForm({ photoIdList }) {
     const {
       caption,
       location,
-      dates,
       pricePerNight,
       maximumOccupancy
     } = fieldValues;
 
-    const startDate = dates[0].toDate(); 
-    const endDate = dates[1].toDate();
-
     const formData = new FormData();
     formData.append("caption", caption);
     formData.append("location", location);
-    formData.append("startDate", format(startDate, "yyyy-MM-dd'T'HH:mm:ss"));
-    formData.append("endDate", format(endDate, "yyyy-MM-dd'T'HH:mm:ss"));
     formData.append("pricePerNight", pricePerNight);
     formData.append("photoIdList", photoIdList);
     formData.append("maximumOccupancy", maximumOccupancy);
@@ -103,32 +94,7 @@ export default function SubmitPostForm({ photoIdList }) {
       >
         <Input.TextArea />
       </Form.Item>
-  
-      <Form.Item
-        label="시작/종료 날짜"
-        name="dates"
-        rules={[
-            { 
-                required: true, 
-                message: "시작/종료 날짜를 선택해주세요." 
-            },
-            ({ getFieldValue }) => ({
-                validator(_, value) {
-                    if (!value || value.length !== 2) {
-                        return Promise.reject(new Error("두 개의 날짜를 선택해주세요."));
-            }
-            return Promise.resolve();
-            },
-          }),
-        ]}
-        hasFeedback
-        {...fieldErrors.dates}
-      >
-        <DatePicker.RangePicker 
-          disabledDate={(current) => current && current.isBefore(dayjs(), 'day')}
-        />
-      </Form.Item>
-  
+
       <Form.Item
         label="수용 가능 인원"
         name="maximumOccupancy"
