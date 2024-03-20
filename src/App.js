@@ -16,6 +16,7 @@ import SortedPostResult from './pages/posts/SortedPostResult';
 import GuestReservations from './pages/users/guests/GuestReservations';
 import HostReservations from './pages/users/hosts/HostReservations';
 import HostPosts from './pages/users/hosts/HostPosts';
+import LikePosts from './pages/users/guests/LikePosts';
 
 function App() {
   return (
@@ -27,9 +28,12 @@ function App() {
         <Route path="/users/signup" element={<Signup />} />
         <Route path="/users/login" element={<Login />} />
         <Route path="/users/logout" element={<LoginRequiredRoute><Logout /></LoginRequiredRoute>} />
+        
         <Route path="/users/hosts/reservations" element={<LoginRequiredRoute><HostReservations /></LoginRequiredRoute>} />
         <Route path="/users/hosts/posts" element={<LoginRequiredRoute><HostPosts /></LoginRequiredRoute>} />
+        
         <Route path="/users/guests/reservations" element={<LoginRequiredRoute><GuestReservations /></LoginRequiredRoute>} />
+        <Route path="/users/guests/posts" element={<LoginRequiredRoute><LikePosts /></LoginRequiredRoute>} />
 
         <Route path="/photos/upload" element={<LoginRequiredRoute><UploadPhoto /></LoginRequiredRoute>} />
         <Route path="/photos/result" element={<LoginRequiredRoute><InferResult /></LoginRequiredRoute>} />

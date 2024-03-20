@@ -50,7 +50,7 @@ export default function HostReservation({ reservation }) {
                             alignItems: 'center',
                         }}
                     >
-                        대화하기
+                        채팅
                     </Button>
                 </div>
             </Card>

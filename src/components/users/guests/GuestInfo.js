@@ -48,7 +48,8 @@ export default function GuestInfo() {
               <div style={{ textAlign: 'center', width: '100%' }}>
                   <div>
                       <Button 
-                          type="primary" 
+                          type="primary"
+                          onClick={() => navigate("/users/guests/posts")} 
                           icon={<HeartOutlined style={{ fontSize: '30px' }}/>} 
                           style={{ 
                               width: '75px',

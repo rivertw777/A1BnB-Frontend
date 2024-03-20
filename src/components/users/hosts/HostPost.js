@@ -81,24 +81,24 @@ return (
                 </div>
             </div>
             <div style={{ marginTop: '20px', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
-                    <Button 
-                        onClick={showDeleteModal} 
-                        disabled={hasReservation}
-                        style={{ 
-                            backgroundColor: '#7788E8', 
-                            borderColor: '#7788E8', 
-                            color: 'white', 
-                            fontSize: '15px', 
-                            width: '90px', 
-                            height: '45px', 
-                            display: 'flex', // Flexbox 레이아웃을 사용합니다.
-                            justifyContent: 'center', // 수평 방향에서 중앙 정렬합니다.
-                            alignItems: 'center',
-                        }}
-                    >
-                        게시물 삭제
-                    </Button>
-                </div>
+                <Button 
+                    onClick={showDeleteModal} 
+                    disabled={hasReservation}
+                    style={{ 
+                        backgroundColor: '#7788E8', 
+                        borderColor: '#7788E8', 
+                        color: 'white', 
+                        fontSize: '15px', 
+                        width: '90px', 
+                        height: '45px', 
+                        display: 'flex', // Flexbox 레이아웃을 사용합니다.
+                        justifyContent: 'center', // 수평 방향에서 중앙 정렬합니다.
+                        alignItems: 'center',
+                    }}
+                >
+                    게시물 삭제
+                </Button>
+            </div>
             <Modal
                 title="정말 삭제하시겠습니까?"
                 visible={isModalVisible}
