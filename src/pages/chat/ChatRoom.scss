@@ -1,0 +1,117 @@
+.chat-room {
+  display: flex;
+  flex-direction: column;
+  width: 500px; // 채팅방의 너비 고정
+  height: 550px; // 채팅방의 높이 고정
+  margin: 20px auto;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: #fff;
+
+  .name-box {
+    display: flex;
+    align-items: center;
+    background-color: #7788E8;
+    color: #FFFFFF;
+    padding: 12px 16px;
+    height: 30px;
+    border: 1px solid #cccccc; /* 여기에 테두리 스타일 추가 */
+
+    svg {
+      font-size: 1.3rem;
+    }
+
+    .user-name {
+      margin-left: 10px;
+      color: #FFFFFF;
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+  }
+
+  .message-box {
+    flex: 1;
+    padding: 10px;
+    background: #f9f9f9;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .message {
+      max-width: 70%;
+      padding: 10px;
+      border-radius: 20px;
+      position: relative;
+
+      &.user-message {
+        margin-left: auto;
+        background-color: #7788E8;
+        color: #fff;
+
+        &:after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          right: -10px;
+          width: 0;
+          height: 0;
+          border: 10px solid transparent;
+          border-bottom: 0;
+          border-right: 0;
+          margin-left: -5px;
+          margin-bottom: -10px;
+        }
+      }
+
+      &.other-message {
+        background-color: #fff;
+
+        &:after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: -10px;
+          width: 0;
+          height: 0;
+          border: 10px solid transparent;
+          border-top-color: #fff;
+          border-bottom: 0;
+          border-left: 0;
+          margin-right: -5px;
+          margin-bottom: -10px;
+        }
+      }
+    }
+  }
+
+  .input-section {
+    display: flex;
+    background: #fff;
+    padding: 12px 12px;
+    height: 40px;
+    
+
+    .input-box {
+      flex: 1;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin-right: 8px;
+    }
+
+    .send-button {
+      background-color: #7788E8;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 16px;
+      transition: background-color .3s;
+
+      &:hover {
+        background-color: darken(#7788E8, 10%);
+      }
+    }
+  }
+}

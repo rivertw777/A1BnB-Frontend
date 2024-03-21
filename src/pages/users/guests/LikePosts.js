@@ -49,7 +49,7 @@ const LikePosts = () => {
                                 marginBottom: '50px'
                             }}
                         >
-                            등록한 숙소가 없습니다..
+                            찜해둔 숙소가 없습니다..
                         </div>
                     </div>
                 )}

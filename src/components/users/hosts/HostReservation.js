@@ -13,6 +13,12 @@ export default function HostReservation({ reservation }) {
         navigate(`/posts/${postId}`);
     };
 
+    const goToChat = (event) => {
+        event.stopPropagation(); 
+        const partnerName = guestName;
+        navigate("/chat", { state: { partnerName } })
+    }
+
     return (
         <>
             <Card
@@ -38,6 +44,7 @@ export default function HostReservation({ reservation }) {
                 </div>
                 <div style={{ marginTop: '20px', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
                     <Button 
+                        onClick={goToChat}
                         style={{ 
                             backgroundColor: '#7788E8', 
                             borderColor: '#7788E8', 

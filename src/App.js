@@ -17,6 +17,7 @@ import GuestReservations from './pages/users/guests/GuestReservations';
 import HostReservations from './pages/users/hosts/HostReservations';
 import HostPosts from './pages/users/hosts/HostPosts';
 import LikePosts from './pages/users/guests/LikePosts';
+import ChatRoom from './pages/chat/ChatRoom';
 
 function App() {
   return (
@@ -42,6 +43,8 @@ function App() {
         <Route path="/posts/search" element={<SearchPostResult />} />
         <Route path="/posts/:postId" element={<PostDetail />} />
         <Route path="/posts/sort" element={<SortedPostResult />} />
+
+        <Route path="/chat" element={<LoginRequiredRoute><ChatRoom /></LoginRequiredRoute>} />
       </Routes>
     </AppLayout>
   )

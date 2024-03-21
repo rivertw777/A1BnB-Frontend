@@ -7,10 +7,13 @@ import { HeartOutlined, HeartTwoTone, FrownOutlined, MessageOutlined } from "@an
 import { useAppContext } from "../../../store";
 import BookForm from "../../../components/posts/details/BookForm";
 import PropertyInfo from "../../../components/posts/details/PropertyInfo";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const { Title } = Typography;
 
 export default function PostDetail() {
+  const navigate = useNavigate();
+
   const { postId } = useParams();
   const [postData, setPostData] = useState({});
   const [postLikeCheck, setPostLikeCheck] = useState({});
@@ -98,6 +101,18 @@ export default function PostDetail() {
     propertyInfoData = { maximumOccupancy, photoInfoList, location, caption };
   }
 
+  const goToChat = () => {
+    if (isAuthenticated) {
+      const partnerName = hostName;
+      navigate("/chat", { state: { partnerName } })
+    } else {
+      notification.open({
+        message: '로그인이 필요합니다!',
+        icon: <FrownOutlined style={{ color: "#ff3333" }} />
+      });
+    }
+  }
+  
   return (
     <div>
       <Card style={{ width: '80%', margin: '16px auto' }}>
@@ -105,8 +120,9 @@ export default function PostDetail() {
           <Title style={{ marginTop: "0px", color: '#666666' }}>호스트 {hostName}님의 숙소</Title>
           <div>
             <MessageOutlined
-              style={{ fontSize: '30px', marginRight: '20px', }}
-            />
+              style={{ fontSize: '30px', marginRight:'20px', color: '#7788E8'}}
+              onClick={goToChat}
+            />  
             {isLike ? (
               <HeartTwoTone
                 twoToneColor="#eb2f96"

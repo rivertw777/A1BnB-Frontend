@@ -38,6 +38,12 @@ export default function GuestReservation({ reservation }) {
         setIsModalVisible(false);
     };
 
+    const goToChat = (event) => {
+        event.stopPropagation(); 
+        const partnerName = hostName;
+        navigate("/chat", { state: { partnerName } })
+    }
+
     return (
         <>
             <Card
@@ -80,6 +86,7 @@ export default function GuestReservation({ reservation }) {
                         예약 취소
                     </Button>
                     <Button 
+                        onClick={goToChat}
                         style={{ 
                             backgroundColor: '#7788E8', 
                             borderColor: '#7788E8', 
