@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Modal } from 'antd';
-import { HeartTwoTone, RightOutlined } from '@ant-design/icons';
+import { Card, Button, Modal, notification } from 'antd';
+import { HeartTwoTone, RightOutlined, FrownOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from "../../../api";
 import { useAppContext } from "../../../store";
@@ -28,17 +28,28 @@ export default function HostPost({ post }) {
         fetchLikeCount();
     }, [postId]);
 
+    // 게시물 상세 페이지 이동
     const goToPostDetail = () => {
         if (!isModalVisible) {
             navigate(`/posts/${postId}`);
         }
     }
 
+    // 게시물 삭제 모달
     const showDeleteModal = (event) => {
+        if (hasReservation) {
+            event.stopPropagation(); 
+            notification.open({
+                message: `예약자가 있습니다.`,
+                icon: <FrownOutlined style={{ color: "#ff3333" }} />
+            });    
+            return;
+        }
         event.stopPropagation(); 
         setIsModalVisible(true);
     };
 
+    // 게시물 삭제 API 요청 
     const handleDelete = () => {
         axiosInstance.delete(`/api/posts/${postId}`, { headers })
             .then(response => {
@@ -83,7 +94,6 @@ return (
             <div style={{ marginTop: '20px', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
                 <Button 
                     onClick={showDeleteModal} 
-                    disabled={hasReservation}
                     style={{ 
                         backgroundColor: '#7788E8', 
                         borderColor: '#7788E8', 

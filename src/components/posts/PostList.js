@@ -25,7 +25,6 @@ function PostList({ apiUrl, condition }) {
           };
           const response = await axiosInstance.post(apiUrl, condition, pageConfig);
           data = response.data;
-        console.log(data);
         // 일반 조회 
         } else {
           const pageConfig = {

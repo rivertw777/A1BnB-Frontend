@@ -1,23 +1,64 @@
-import React, { useState } from 'react';
-import { Card, Button, Modal } from 'antd';
-import { RightOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
+import { Card, Button, notification } from 'antd';
+import { RightOutlined, FrownOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { axiosInstance } from "../../../api";
+import { useAppContext } from "../../../store";
 import moment from 'moment';
 
 export default function HostReservation({ reservation }) {
     const navigate = useNavigate();
+    const { store: { jwtToken } } = useAppContext();
+    const headers = { Authorization: `Bearer ${jwtToken}` };
     
+    // 예약 정보
     const { postId, checkInDate, checkOutDate, thumbnail, location, paymentAmount, guestName } = reservation;
 
+    // 게시물 상세 페이지 이동
     const goToPostDetail = () => {
         navigate(`/posts/${postId}`);
     };
 
-    const goToChat = (event) => {
-        event.stopPropagation(); 
-        const partnerName = guestName;
-        navigate("/chat", { state: { partnerName } })
+    // 채팅 페이지 이동
+    const goToChat = () => {
+        const receiverName = guestName;
+        navigate("/chat", { state: { receiverName } })
     }
+
+    
+    const [sameMemberCheck, setSameMemberCheck] = useState({});
+
+    // 동일 회원 여부 API 요청
+    useEffect(() => {
+        const fetchSamePersonCheck = async () => {
+            const apiUrl = `/api/users/same`;
+            try {
+              const ckeckSameMemberRequest = { memberName: guestName };
+              const response = await axiosInstance.post(apiUrl, ckeckSameMemberRequest, {headers});
+              setSameMemberCheck(response.data);
+            } catch (error) {
+            
+            }    
+        };
+        fetchSamePersonCheck();        
+    }, []);
+
+    // 동일 회원 여부
+    const { isSameMember } = sameMemberCheck || {};
+
+    // 동일 회원 여부 확인
+    const checkSameMember = (event) => {
+        event.stopPropagation(); 
+        if (isSameMember) {
+            notification.open({
+                message: '본인과의 대화는 불가합니다!',
+                icon: <FrownOutlined style={{ color: "#ff3333" }} />
+            });    
+            return;
+        } else {
+            goToChat();
+        }
+    };
 
     return (
         <>
@@ -44,7 +85,7 @@ export default function HostReservation({ reservation }) {
                 </div>
                 <div style={{ marginTop: '20px', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
                     <Button 
-                        onClick={goToChat}
+                        onClick={checkSameMember}
                         style={{ 
                             backgroundColor: '#7788E8', 
                             borderColor: '#7788E8', 

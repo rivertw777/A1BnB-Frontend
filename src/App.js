@@ -17,7 +17,7 @@ import GuestReservations from './pages/users/guests/GuestReservations';
 import HostReservations from './pages/users/hosts/HostReservations';
 import HostPosts from './pages/users/hosts/HostPosts';
 import LikePosts from './pages/users/guests/LikePosts';
-import ChatRoom from './pages/chat/ChatRoom';
+import ChatRoom from './pages/chats/ChatRoom';
 
 function App() {
   return (

@@ -7,7 +7,7 @@ import { HeartOutlined, HeartTwoTone, FrownOutlined, MessageOutlined } from "@an
 import { useAppContext } from "../../../store";
 import BookForm from "../../../components/posts/details/BookForm";
 import PropertyInfo from "../../../components/posts/details/PropertyInfo";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const { Title } = Typography;
 
@@ -17,6 +17,7 @@ export default function PostDetail() {
   const { postId } = useParams();
   const [postData, setPostData] = useState({});
   const [postLikeCheck, setPostLikeCheck] = useState({});
+  const [sameMemberCheck, setSameMemberCheck] = useState({});
 
   const [visible, setVisible] = useState(false);
   const [modalImage, setModalImage] = useState(null);
@@ -36,6 +37,9 @@ export default function PostDetail() {
     };
     fetchPostData();
   }, []);
+  // 게시물 상세 필드 
+  const { hostName, unavailableDates, location, pricePerNight, photoInfoList, maximumOccupancy, caption } = postData || {};
+
 
   // 회원 게시물 좋아요 여부 확인 API 요청
   const fetchPostLike = async () => {
@@ -51,11 +55,14 @@ export default function PostDetail() {
       setPostLikeCheck({isLike:false});
     }
   };
-
   useEffect(() => {
     fetchPostLike();
   }, [postId]);
 
+  // 좋아요 여부
+  const { isLike } = postLikeCheck || {};
+
+  
   // 게시물 좋아요 API 요청
   const handleLike = async ({isLike}) => { 
     const apiUrl = `/api/posts/${postId}/like`;
@@ -79,6 +86,40 @@ export default function PostDetail() {
     }
   };
 
+  // postData에 값이 있을때 호출
+  useEffect(() => {
+    if (Object.keys(postData).length !== 0 & isAuthenticated) {
+      fetchSamePersonCheck();
+    }
+  }, [postData]);
+
+  // 동일 회원 여부 API 요청
+  const fetchSamePersonCheck = async () => {
+    const apiUrl = `/api/users/same`;
+    try {
+      const ckeckSameMemberRequest = { memberName: hostName };
+      const response = await axiosInstance.post(apiUrl, ckeckSameMemberRequest, {headers});
+      setSameMemberCheck(response.data);
+    } catch (error) {
+    
+    }
+  };
+  // 동일 회원 여부
+  const { isSameMember } = sameMemberCheck || {};
+
+  // 동일 회원 여부 확인
+  const checkSameMember = () => {
+    if (isSameMember) {
+        notification.open({
+            message: '본인과의 대화는 불가합니다!',
+            icon: <FrownOutlined style={{ color: "#ff3333" }} />
+        });    
+        return;
+    } else {
+      goToChat();
+    }
+  };
+
   const handleImageClick = (image) => {
     setModalImage(image);
     setVisible(true);
@@ -87,9 +128,6 @@ export default function PostDetail() {
   const handleModalClose = () => {
     setVisible(false);
   }
-
-  const { hostName, unavailableDates, location, pricePerNight, photoInfoList, maximumOccupancy, caption } = postData || {};
-  const { isLike } = postLikeCheck || {};
 
   // Booingform을 위한 데이터
   let bookFormData = {};
@@ -101,10 +139,12 @@ export default function PostDetail() {
     propertyInfoData = { maximumOccupancy, photoInfoList, location, caption };
   }
 
+  // 채팅 페이지 이동
   const goToChat = () => {
     if (isAuthenticated) {
-      const partnerName = hostName;
-      navigate("/chat", { state: { partnerName } })
+      const receiverName = hostName;
+      navigate("/chat", { state: { receiverName } })
+
     } else {
       notification.open({
         message: '로그인이 필요합니다!',
@@ -121,7 +161,7 @@ export default function PostDetail() {
           <div>
             <MessageOutlined
               style={{ fontSize: '30px', marginRight:'20px', color: '#7788E8'}}
-              onClick={goToChat}
+              onClick={checkSameMember}
             />  
             {isLike ? (
               <HeartTwoTone
