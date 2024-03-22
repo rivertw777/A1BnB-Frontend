@@ -18,6 +18,7 @@ import HostReservations from './pages/users/hosts/HostReservations';
 import HostPosts from './pages/users/hosts/HostPosts';
 import LikePosts from './pages/users/guests/LikePosts';
 import ChatRoom from './pages/chats/ChatRoom';
+import MyChatRooms from './pages/users/MyChatRooms';
 
 function App() {
   return (
@@ -28,13 +29,12 @@ function App() {
         <Route path="/users" element={<LoginRequiredRoute><MyPage /></LoginRequiredRoute>} />
         <Route path="/users/signup" element={<Signup />} />
         <Route path="/users/login" element={<Login />} />
-        <Route path="/users/logout" element={<LoginRequiredRoute><Logout /></LoginRequiredRoute>} />
-        
+        <Route path="/users/logout" element={<LoginRequiredRoute><Logout /></LoginRequiredRoute>} />       
         <Route path="/users/hosts/reservations" element={<LoginRequiredRoute><HostReservations /></LoginRequiredRoute>} />
         <Route path="/users/hosts/posts" element={<LoginRequiredRoute><HostPosts /></LoginRequiredRoute>} />
-        
         <Route path="/users/guests/reservations" element={<LoginRequiredRoute><GuestReservations /></LoginRequiredRoute>} />
         <Route path="/users/guests/posts" element={<LoginRequiredRoute><LikePosts /></LoginRequiredRoute>} />
+        <Route path="/users/chats" element={<LoginRequiredRoute><MyChatRooms /></LoginRequiredRoute>} />
 
         <Route path="/photos/upload" element={<LoginRequiredRoute><UploadPhoto /></LoginRequiredRoute>} />
         <Route path="/photos/result" element={<LoginRequiredRoute><InferResult /></LoginRequiredRoute>} />
@@ -44,7 +44,7 @@ function App() {
         <Route path="/posts/:postId" element={<PostDetail />} />
         <Route path="/posts/sort" element={<SortedPostResult />} />
 
-        <Route path="/chat" element={<LoginRequiredRoute><ChatRoom /></LoginRequiredRoute>} />
+        <Route path="/chats" element={<LoginRequiredRoute><ChatRoom /></LoginRequiredRoute>} />
       </Routes>
     </AppLayout>
   )

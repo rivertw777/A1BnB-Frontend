@@ -42,7 +42,7 @@ export default function GuestReservation({ reservation }) {
     // 채팅 페이지 이동
     const goToChat = () => {
         const receiverName = hostName;
-        navigate("/chat", { state: { receiverName } })
+        navigate("/chats", { state: { receiverName } })
     }
 
     const [sameMemberCheck, setSameMemberCheck] = useState({});

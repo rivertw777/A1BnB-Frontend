@@ -143,7 +143,7 @@ export default function PostDetail() {
   const goToChat = () => {
     if (isAuthenticated) {
       const receiverName = hostName;
-      navigate("/chat", { state: { receiverName } })
+      navigate("/chats", { state: { receiverName } })
 
     } else {
       notification.open({

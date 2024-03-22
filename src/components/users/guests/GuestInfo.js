@@ -93,6 +93,7 @@ export default function GuestInfo() {
                   <div>
                       <Button 
                           type="primary" 
+                          onClick={() => navigate("/users/chats")}
                           icon={<MessageOutlined style={{ fontSize: '30px' }}/>} 
                           style={{ 
                               width: '75px',

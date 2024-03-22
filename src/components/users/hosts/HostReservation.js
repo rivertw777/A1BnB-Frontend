@@ -22,10 +22,9 @@ export default function HostReservation({ reservation }) {
     // 채팅 페이지 이동
     const goToChat = () => {
         const receiverName = guestName;
-        navigate("/chat", { state: { receiverName } })
+        navigate("/chats", { state: { receiverName } })
     }
 
-    
     const [sameMemberCheck, setSameMemberCheck] = useState({});
 
     // 동일 회원 여부 API 요청
