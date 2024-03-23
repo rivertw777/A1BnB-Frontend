@@ -1,5 +1,33 @@
-.custom-button {
-    background-color: #7788E8 !important;
-    border-color: #7788E8 !important;
-    color: white !important;
-}
+// InferResult.scss
+
+.inferResultContainer {
+    h3 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 60px;
+      color: #666666;
+    }
+  
+    .resultsWrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      gap: 0px;
+    }
+  
+    .navigationWrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      margin-bottom: 40px;
+  
+      .custom-button {
+        height: 70px;
+        font-size: 30px;
+        background-color: #7788E8 !important;
+        border-color: #7788E8 !important;
+        color: white !important;
+      }
+    }
+  }
+  

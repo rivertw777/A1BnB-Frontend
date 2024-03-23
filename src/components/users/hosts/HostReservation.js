@@ -97,7 +97,7 @@ export default function HostReservation({ reservation }) {
                             alignItems: 'center',
                         }}
                     >
-                        대화하기
+                        메시지
                     </Button>
                 </div>
             </Card>

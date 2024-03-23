@@ -42,13 +42,19 @@
     .message-container {
       display: flex;
       flex-direction: column;
-      align-items: flex-end; // 타임스탬프와 메시지를 오른쪽으로 정렬
       gap: 4px; // 타임스탬프와 메시지 사이의 간격
 
       .timestamp {
-        align-self: flex-end; // 타임스탬프를 오른쪽으로 정렬
         font-size: 0.7rem; // 글씨 크기 조정
         color: #7a7a7a; // 타임스탬프 색상 조정 (선택 사항)
+      }
+
+      .timestamp.user-message {
+        text-align: right; /* 사용자 메시지 타임스탬프를 오른쪽 정렬 */
+      }
+
+      .timestamp.other-message {
+        text-align: left; /* 다른 사람의 메시지 타임스탬프를 왼쪽 정렬 */
       }
 
       .message {
@@ -57,7 +63,7 @@
         border-radius: 15px;
         position: relative;
         display: flex;
-        justify-content: space-between; // 메시지 내용과 타임스탬프를 양 끝으로 분배
+        justify-content: center; // 메시지 내용과 타임스탬프를 양 끝으로 분배
         align-items: center; 
         position: relative;
 
@@ -82,7 +88,10 @@
         }
 
         &.other-message {
-          background-color: #fff;
+          margin-right: auto; /* 오른쪽 정렬을 취소하고 왼쪽으로 정렬합니다. */
+          background-color: #A9A9A9;
+          color: #fff;
+
 
           &:after {
             content: "";

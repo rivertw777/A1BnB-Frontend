@@ -35,19 +35,18 @@ function InferResult() {
   }, []);
 
   return (
-    <div>
-      <h3 style={{ textAlign: "center", fontSize: "2.5em", marginBottom: "60px", color: '#666666' }}>분석 완료!!</h3>
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-evenly", gap: "0px" }}>
+    <div className="inferResultContainer">  {/* 클래스 이름 추가 */}
+      <h3>분석 완료!!</h3>
+      <div className="resultsWrapper"> {/* 클래스 이름 추가 */}
         {resultList &&
           resultList.map(result => (
             <InferenceResult result={result} key={result.photoId} />
           ))}
       </div>
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px", marginBottom: "40px" }}>
+      <div className="navigationWrapper"> {/* 클래스 이름 추가 */}
         <Button 
           className="custom-button" 
-          htmlType="submit" 
-          style={{ height: "70px", fontSize: "30px" }} 
+          htmlType="submit"
           onClick={() => navigate("/posts/submit", { state: { photoIdList, from: 'InferResult' } })}>
             Register Your Property
         </Button>
@@ -55,5 +54,6 @@ function InferResult() {
     </div>
   );
 }
+
   
 export default InferResult;

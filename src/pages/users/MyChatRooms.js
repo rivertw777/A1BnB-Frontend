@@ -1,42 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { axiosInstance } from "../../api";
 import { useAppContext } from "../../store";
-import { List, Card } from 'antd';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
+import './MyChatRooms.scss'; // SCSS 파일 임포트
 
 const MyChatRooms = () => {
-    const { store: { jwtToken } } = useAppContext();
-    const headers = { Authorization: `Bearer ${jwtToken}` };
-    const [chatRooms, setChatRooms] = useState([]);
+  const { store: { jwtToken } } = useAppContext();
+  const headers = { Authorization: `Bearer ${jwtToken}` };
+  const navigate = useNavigate();
+  const [chatRooms, setChatRooms] = useState([]);
 
-    // 내 채팅방 조회 API 요청
-    useEffect(() => {
-        const fetchChatRooms = async () => {
-            const apiUrl = `/api/chats`;
-            try {
-              const response = await axiosInstance.get(apiUrl, {headers});
-              setChatRooms(response.data);
-            } catch (error) {
-            
-            }    
-        };
-        fetchChatRooms();        
-    }, []);    
+  useEffect(() => {
+    const fetchChatRooms = async () => {
+      const apiUrl = `/api/chats`;
+      try {
+        const response = await axiosInstance.get(apiUrl, { headers });
+        setChatRooms(response.data);
+      } catch (error) {
+        
+      }    
+    };
+    fetchChatRooms();        
+  }, []);    
 
-    return (
-        <List
-            grid={{ gutter: 16, column: 4 }}
-            dataSource={chatRooms}
-            renderItem={chatRoom => (
-                <List.Item key={chatRoom.id}>
-                    <Card title={chatRoom.receiverName}>
-                        <p>Last message: {chatRoom.lastMessage}</p>
-                        <p>{moment(chatRoom.createdAt).fromNow()}</p>
-                    </Card>
-                </List.Item>
-            )}
-        />
-    );
-  };
-  
-  export default MyChatRooms;
+ 
+  return (
+    <div className="chatRoomsContainer">
+      {chatRooms.map(chatRoom => (
+        <div key={chatRoom.id} className="chatRoom" onClick={() => navigate("/chats", { state: { receiverName: chatRoom.receiverName } })}>
+          <div className="receiverName">{chatRoom.receiverName}</div>
+          <div className="chatInfo">
+            <p className="lastMessage">Last message: {chatRoom.lastMessage}</p>
+            <p className="createdAt">{moment(chatRoom.createdAt).fromNow()}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default MyChatRooms;
