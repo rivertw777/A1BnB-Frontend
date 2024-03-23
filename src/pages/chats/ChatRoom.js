@@ -8,6 +8,7 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
 import { useAppContext } from "../../store";
 import { axiosInstance } from "../../api";
+import { API_HOST } from "../../Constants";
 
 import "./ChatRoom.scss"; // SCSS 파일 import
 
@@ -53,7 +54,7 @@ const ChatRoom = () => {
       const initialMessages = messageInfoList.map(info => ({
         ...info,
         timestamp: new Date(info.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        isUserMessage: info.senderName === receiverName, 
+        isUserMessage: info.senderName !== receiverName, 
       }));
       setMessages(initialMessages);
     }
@@ -63,7 +64,7 @@ const ChatRoom = () => {
   // 웹소켓 연결
   useEffect(() => {
     if (Object.keys(roomInfo).length !== 0) {
-      const socket = new SockJS('http://localhost:8080/ws');
+      const socket = new SockJS(`${API_HOST}/ws`);
       const stompClient = Stomp.over(socket);
       setStompClient(stompClient);
 
