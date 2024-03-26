@@ -1,19 +1,14 @@
 // 게시물 검색 폼
 import React, { useState } from "react";
 import { Button, Form, Input, DatePicker, InputNumber, Select } from "antd";
-import { useAppContext } from "../../store";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { format } from 'date-fns';
 import dayjs from 'dayjs';
 
-export default function SearchPostForm({ handleSearch, handleCancel }) {
-    const {
-        store: { jwtToken }
-    } = useAppContext();
-  
+export default function SearchPostForm() {
     const navigate = useNavigate();
 
-    const [fieldErrors, setFieldErrors] = useState({});
+    const [fieldErrors] = useState({});
 
     const amenityList = [
         'Bathtub', 'Bed', 'Chest of drawers', 'Closet', 'Computer monitor', 
@@ -45,7 +40,7 @@ export default function SearchPostForm({ handleSearch, handleCancel }) {
         let checkInDate, checkOutDate;
 
         if (dates) {
-            checkInDate = dates[0].toDate(); // Moment.js 객체를 Date 객체로 변환
+            checkInDate = dates[0].toDate(); 
             checkOutDate = dates[1].toDate();
         }
         

@@ -1,13 +1,13 @@
 // 전체 레이아웃
 import { React } from 'react';
-import { Input, Button } from "antd";
+import { Button } from "antd";
 import { useAppContext } from "../store";
 import { useNavigate } from "react-router-dom";
 import "./AppLayout.scss";
 
 function AppLayout({ children }) {
   const {
-    store: { isAuthenticated, jwtToken },
+    store: { isAuthenticated },
   } = useAppContext();
 
   const navigate = useNavigate();

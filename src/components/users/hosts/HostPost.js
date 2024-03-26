@@ -1,3 +1,4 @@
+// 호스트 게시물
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Modal, notification } from 'antd';
 import { HeartTwoTone, RightOutlined, FrownOutlined } from '@ant-design/icons';
@@ -12,7 +13,10 @@ export default function HostPost({ post }) {
     const navigate = useNavigate();
     const [isModalVisible, setIsModalVisible] = useState(false);
 
+    // 게시물 정보
     const { postId, createdAt, thumbnail, location, pricePerNight, hasReservation } = post;
+    
+    // 좋아요 수
     const [likeCount, setLikeCount] = useState(0);
 
     // 게시물 좋아요 수 API 호출
@@ -22,7 +26,14 @@ export default function HostPost({ post }) {
                 const response = await axiosInstance.get(`/api/posts/${postId}/like/count`);
                 setLikeCount(response.data.likeCount);
             } catch (error) {
-
+                if (error.response) {
+                    const {status, data:{errorMessage}} = error.response
+                    notification.open({
+                      message: `${status} 에러`,
+                      description: errorMessage,
+                      icon: <FrownOutlined style={{ color: "#ff3333" }} />
+                    });
+                }
             }
         };
         fetchLikeCount();
@@ -49,6 +60,10 @@ export default function HostPost({ post }) {
         setIsModalVisible(true);
     };
 
+    const handleClose = () => {
+        setIsModalVisible(false);
+    };
+
     // 게시물 삭제 API 요청 
     const handleDelete = () => {
         axiosInstance.delete(`/api/posts/${postId}`, { headers })
@@ -59,10 +74,6 @@ export default function HostPost({ post }) {
             .catch(error => {
 
             });
-    };
-
-    const handleClose = () => {
-        setIsModalVisible(false);
     };
 
 return (
@@ -101,8 +112,8 @@ return (
                         fontSize: '15px', 
                         width: '90px', 
                         height: '45px', 
-                        display: 'flex', // Flexbox 레이아웃을 사용합니다.
-                        justifyContent: 'center', // 수평 방향에서 중앙 정렬합니다.
+                        display: 'flex', 
+                        justifyContent: 'center', 
                         alignItems: 'center',
                     }}
                 >

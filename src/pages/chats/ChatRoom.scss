@@ -1,8 +1,8 @@
 .chat-room {
   display: flex;
   flex-direction: column;
-  width: 500px; // 채팅방의 너비 고정
-  height: 550px; // 채팅방의 높이 고정
+  width: 500px; 
+  height: 550px; 
   margin: 20px auto;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
@@ -16,7 +16,7 @@
     color: #FFFFFF;
     padding: 12px 16px;
     height: 30px;
-    border: 1px solid #cccccc; /* 여기에 테두리 스타일 추가 */
+    border: 1px solid #cccccc;
 
     svg {
       font-size: 1.3rem;
@@ -42,19 +42,19 @@
     .message-container {
       display: flex;
       flex-direction: column;
-      gap: 4px; // 타임스탬프와 메시지 사이의 간격
+      gap: 4px; 
 
       .timestamp {
-        font-size: 0.7rem; // 글씨 크기 조정
-        color: #7a7a7a; // 타임스탬프 색상 조정 (선택 사항)
+        font-size: 0.7rem; 
+        color: #7a7a7a; 
       }
 
       .timestamp.user-message {
-        text-align: right; /* 사용자 메시지 타임스탬프를 오른쪽 정렬 */
+        text-align: right;
       }
 
       .timestamp.other-message {
-        text-align: left; /* 다른 사람의 메시지 타임스탬프를 왼쪽 정렬 */
+        text-align: left; 
       }
 
       .message {
@@ -63,7 +63,7 @@
         border-radius: 15px;
         position: relative;
         display: flex;
-        justify-content: center; // 메시지 내용과 타임스탬프를 양 끝으로 분배
+        justify-content: center; 
         align-items: center; 
         position: relative;
 
@@ -88,7 +88,7 @@
         }
 
         &.other-message {
-          margin-right: auto; /* 오른쪽 정렬을 취소하고 왼쪽으로 정렬합니다. */
+          margin-right: auto; 
           background-color: #A9A9A9;
           color: #fff;
 

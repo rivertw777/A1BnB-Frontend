@@ -1,7 +1,7 @@
-// 호스트 정보 컴포넌트
+// 호스트 정보
 import React, { useState, useEffect } from 'react';
-import { Button, Card } from 'antd';
-import { HomeOutlined, CalendarOutlined, MessageOutlined } from "@ant-design/icons";
+import { Button, Card, notification } from 'antd';
+import { HomeOutlined, CalendarOutlined, MessageOutlined, FrownOutlined } from "@ant-design/icons";
 import { axiosInstance } from "../../../api";
 import { useAppContext } from "../../../store";
 import { useNavigate } from "react-router-dom";
@@ -9,8 +9,10 @@ import { useNavigate } from "react-router-dom";
 export default function HostInfo() {
     const { store: { jwtToken } } = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
-    const [settleAmount, setSettleAmount] = useState({});
     const navigate = useNavigate();
+
+    // 정산 금액
+    const [settleAmount, setSettleAmount] = useState({});
 
     // 내 정산 금액 조회 API 요청
     useEffect(() => {
@@ -20,7 +22,14 @@ export default function HostInfo() {
                 const response = await axiosInstance.get(apiUrl, {headers});
                 setSettleAmount(response.data.settleAmount);
             } catch (error) {
-
+                if (error.response) {
+                    const {status, data:{errorMessage}} = error.response
+                    notification.open({
+                      message: `${status} 에러`,
+                      description: errorMessage,
+                      icon: <FrownOutlined style={{ color: "#ff3333" }} />
+                    });
+                }
             }
         };
         fetchAmountData();

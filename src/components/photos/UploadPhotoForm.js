@@ -7,11 +7,11 @@ import { getBase64FromFile } from "../../utils/base64";
 import { parseErrorMessages } from "../../utils/forms";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api";
+import "./UploadPhotoForm.scss"; 
 
 export default function UploadPhotoForm() {
-  const {
-    store: { jwtToken }
-  } = useAppContext();
+  const { store: { jwtToken }} = useAppContext();
+  const headers = { Authorization: `Bearer ${jwtToken}` };
 
   const navigate = useNavigate();
 
@@ -21,8 +21,9 @@ export default function UploadPhotoForm() {
     base64: null
   });
   const [fieldErrors, setFieldErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);  // 로딩 상태 추가
+  const [isLoading, setIsLoading] = useState(false); 
 
+  // 업드드 사진 핸들
   const handleUploadChange = ({ fileList }) => {
     if (fileList.length <= 5) {
       const duplicatePhotos = fileList.filter(
@@ -42,6 +43,7 @@ export default function UploadPhotoForm() {
     }
   };
 
+  // 사진 프리뷰 핸들
   const handlePreviewPhoto = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64FromFile(file.originFileObj);
@@ -53,13 +55,13 @@ export default function UploadPhotoForm() {
     });
   };
 
-  // 사진 업로드 API 호출
+  // 사진 업로드 요청 API 호출
   const handleFinish = async (fieldValues) => {
     const {
       photos: { fileList }
     } = fieldValues;
 
-    // 사진 개수가 5장 미만인 경우 경고 메시지 표시 후 함수 종료
+
     if (fileList.length < 5) {
       notification.warning({
         message: "사진 개수 부족",
@@ -73,15 +75,11 @@ export default function UploadPhotoForm() {
     fileList.forEach((file) => {
       formData.append("photos", file.originFileObj);
     });
-
-    const headers = { Authorization: `Bearer ${jwtToken}` };
     
     setIsLoading(true);  // 로딩 시작
 
     try {
       const response = await axiosInstance.post("/api/photos", formData, { headers });
-
-      // 서버에서 반환된 photoIdList를 받아오기
       const photoIdList = response.data;
       navigate("/photos/result", { state: { photoIdList } });
       
@@ -104,57 +102,58 @@ export default function UploadPhotoForm() {
   };
 
   return (
-    <div style={{ marginTop: "30px" }}>
-    <Spin spinning={isLoading} size="large" tip={<div style={{ fontSize: "18px", fontWeight: "bold" }}>사진을 분석중입니다.<br />잠시만 기다려주세요.</div>}>
-      <Form
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 8 }}
-        onFinish={handleFinish}
-        autoComplete={"false"}
-      >
-        <Form.Item
-          label="Photos"
-          name="photos"
-          rules={[{ required: true, message: "사진을 입력해주세요." }]}
-          hasFeedback
-          {...fieldErrors.photo}
+    <div className="uploadFormContainer">
+      <Spin spinning={isLoading} size="large" tip={<div className="spinTip">사진을 분석중입니다.<br />잠시만 기다려주세요.</div>}>
+        <Form
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 8 }}
+          onFinish={handleFinish}
+          autoComplete={"false"}
         >
-          <Upload
-            listType="picture-card"
-            fileList={fileList}
-            beforeUpload={() => false}
-            onChange={handleUploadChange}
-            onPreview={handlePreviewPhoto}
-            multiple // 여러 장의 사진을 선택할 수 있도록 multiple 속성 추가
+          <Form.Item
+            label="Photos"
+            name="photos"
+            rules={[{ required: true, message: "사진을 입력해주세요." }]}
+            hasFeedback
+            {...fieldErrors.photo}
           >
-            {fileList.length > -1 && fileList.length < 5 ? (
-              <div>
-                <PlusOutlined />
-                <div className="ant-upload-text">Upload</div>
-              </div>
-            ) : null}
-          </Upload>
-        </Form.Item>
-
-        <Form.Item wrapperCol={{ offset: 8, span: 8 }}>
-          <Button htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-
-        <Modal
-          visible={previewPhoto.visible}
-          footer={null}
-          onCancel={() => setPreviewPhoto({ visible: false })}
-        >
-          <img
-            src={previewPhoto.base64}
-            style={{ width: "100%" }}
-            alt="Preview"
-          />
-        </Modal>
-      </Form>
-    </Spin>
+            <Upload
+              listType="picture-card"
+              fileList={fileList}
+              beforeUpload={() => false}
+              onChange={handleUploadChange}
+              onPreview={handlePreviewPhoto}
+              multiple 
+            >
+              {fileList.length >= 0 && fileList.length < 5 ? (
+                <div>
+                  <PlusOutlined />
+                  <div className="ant-upload-text">Upload</div>
+                </div>
+              ) : null}
+            </Upload>
+          </Form.Item>
+  
+          <Form.Item wrapperCol={{ offset: 8, span: 8 }}>
+            <Button htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+  
+          <Modal
+            visible={previewPhoto.visible}
+            footer={null}
+            onCancel={() => setPreviewPhoto({ visible: false })}
+          >
+            <img
+              src={previewPhoto.base64}
+              className="previewImage"
+              alt="Preview"
+            />
+          </Modal>
+        </Form>
+      </Spin>
     </div>
   );
+
 }

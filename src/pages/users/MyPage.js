@@ -1,12 +1,12 @@
 // 내 정보 페이지
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Card } from 'antd';
 import HostInfo from "../../components/users/hosts/HostInfo";
 import GuestInfo from "../../components/users/guests/GuestInfo";
 import './MyPage.scss'; 
 
 export default function MyPage() {
-  const [role, setRole] = useState('host'); // 기본값을 'host'로 설정
+  const [role, setRole] = useState('host'); 
 
   return (
     <Card 
@@ -24,8 +24,8 @@ export default function MyPage() {
               width: '110px',
               height: '55px',
               borderRadius: '20px',
-              margin: '10px 0', // 여백 조정
-              fontSize: '20px', // 글씨 크기 조정
+              margin: '10px 0', 
+              fontSize: '20px', 
             }} 
             className={`role-button ${role === 'host' ? 'host' : 'default'}`}
             onClick={() => setRole('host')}
@@ -37,8 +37,8 @@ export default function MyPage() {
               width: '110px', 
               height: '55px', 
               borderRadius: '20px', 
-              margin: '10px 0', // 여백 조정
-              fontSize: '20px', // 글씨 크기 조정
+              margin: '10px 0', 
+              fontSize: '20px', 
             }} 
             className={`role-button ${role === 'guest' ? 'guest' : 'default'}`}
             onClick={() => setRole('guest')}

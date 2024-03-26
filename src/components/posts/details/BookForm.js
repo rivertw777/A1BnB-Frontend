@@ -1,31 +1,28 @@
 // 숙소 예약 폼
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Card, Button, DatePicker, Form, notification, InputNumber } from 'antd';
 import { FrownOutlined, SmileOutlined } from "@ant-design/icons";
 import { useAppContext } from "../../../store";
 import { axiosInstance } from "../../../api";
 import { format } from 'date-fns';
 import moment from 'moment';
-import dayjs from 'dayjs';
 
 import "./BookForm.scss";
 
 export default function BookingForm( {bookFormData} ) {
-  const { store: { jwtToken, isAuthenticated } } = useAppContext();
+  const { store: { jwtToken } } = useAppContext();
   const headers = { Authorization: `Bearer ${jwtToken}` };
   const [visible, setVisible] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState({});
+  const [fieldErrors] = useState({});
   const [form] = Form.useForm();
   
+  // 예약 폼 정보
   const { postId, unavailableDates, pricePerNight, maximumOccupancy } = bookFormData;
 
-  // 문자열 배열인 unavailableDates를 Date 객체 배열로 변환
   const disabledDates = unavailableDates ? unavailableDates.map(dateStr => moment(dateStr).toDate()) : [];
 
-  // 특정 날짜가 비활성화되어야 하는지 결정하는 함수
+  // 예약 불가능 날짜 초기화
   const disabledDate = (current) => {
-    // 현재 날짜 또는 그 이전 날짜를 비활성화할지 여부를 결정
-    // 오늘 날짜보다 이전이거나, 비활성화된 날짜와 같은 경우 true 반환
     return current.isBefore(moment().startOf('day')) || disabledDates.some(disabledDate =>
       current.isSame(moment(disabledDate), 'day')
     );
@@ -37,9 +34,9 @@ export default function BookingForm( {bookFormData} ) {
 
   // 숙소 예약 API 요청
   const onFinish = async fieldValues => {
-    if (isSubmitting) return; // 요청이 이미 진행 중이면 추가 요청을 방지
+    if (isSubmitting) return; 
 
-    setIsSubmitting(true); // 요청 시작을 표시
+    setIsSubmitting(true); 
     const { dates } = fieldValues;
 
     const checkInDate = dates[0].toDate(); 
@@ -53,7 +50,6 @@ export default function BookingForm( {bookFormData} ) {
     try {
       const apiUrl = `/api/posts/${postId}/book`;
       const response = await axiosInstance.post(apiUrl, formData, {headers});
-
       notification.open({
         message: "예약 완료",
         icon: <SmileOutlined style={{ color: "#108ee9" }} />
@@ -69,7 +65,7 @@ export default function BookingForm( {bookFormData} ) {
         });
       }
     } finally {
-      setIsSubmitting(false); // 요청이 완료되었거나 오류가 발생했을 때 요청 상태를 초기화
+      setIsSubmitting(false); 
     }
   };
 
@@ -123,7 +119,6 @@ export default function BookingForm( {bookFormData} ) {
                   if (value[0].isSame(value[1], 'day')) {
                     return Promise.reject(new Error("체크인과 체크아웃 날짜는 같을 수 없습니다."));
                   }
-                  // 체크인 날짜부터 체크아웃 날짜까지 모든 날짜 생성
                   let day = value[0];
                   const endDay = value[1];
                   const datesInRange = [];
@@ -138,7 +133,6 @@ export default function BookingForm( {bookFormData} ) {
                     )
                   );
                   if (isDisabledDateIncluded) {
-                    // 비활성화된 날짜가 포함된 경우 에러 메시지 반환
                     return Promise.reject(new Error("예약할 수 없는 날짜가 포함되어 있습니다."));
                   }
                   return Promise.resolve();

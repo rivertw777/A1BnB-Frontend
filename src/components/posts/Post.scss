@@ -19,9 +19,8 @@
     }
 
     &:active {
-        // 클릭 시 변화할 스타일
-        transform: translateY(-2px); // 예시: 클릭 시 조금 아래로 움직임
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); // 예시: 그림자 조절
+        transform: translateY(-2px); 
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); 
     }
   }
   

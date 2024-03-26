@@ -1,17 +1,20 @@
-// 게시물 
+// 게시물 카드
 import React, { useState, useEffect } from 'react';
 import { Card, Carousel } from "antd";
-import { useAxios, axiosInstance } from "../../api";
-import { HeartOutlined, HeartTwoTone, FrownOutlined } from "@ant-design/icons";
+import { axiosInstance } from "../../api";
+import { HeartTwoTone } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import './Post.scss'; // SCSS 파일 임포트
+import './Post.scss'; 
 
 function Post({ post }) {
   const navigate = useNavigate();
+  
+  // 게시물 정보
   const { postId, hostName, photoUrls, location, pricePerNight } = post;
+  
+  // 좋아요 수 
   const [likeCount, setLikeCount] = useState(0);
 
-  // photoUrls 리스트에서 처음 4개의 요소만을 가져와서 새로운 리스트를 만듭니다.
   const limitedPhotoUrls = photoUrls.slice(0, 5);
 
   // 게시물 좋아요 수 API 호출
@@ -27,10 +30,10 @@ function Post({ post }) {
     fetchLikeCount();
   }, [postId]);
 
+  // 게시물 상세 페이지 이동
   const goToPostDetail = () => {
     navigate(`/posts/${postId}`); 
   };
-  
   
   return (
     <div className="postContainer">

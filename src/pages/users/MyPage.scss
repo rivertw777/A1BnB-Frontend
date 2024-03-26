@@ -7,12 +7,12 @@
         .role-button {
             color: #666666;
             &.host, &.guest {
-                background-color: #7788E8; // 원하는 색상 코드
-                border-color: #7788E8; // 버튼 테두리도 같은 색상으로 설정
+                background-color: #7788E8; 
+                border-color: #7788E8; 
                 color: white;
             }
             &:hover {
-                background-color: darken(#7788E8, 5%); // 호버 시 조금 더 어두운 색상으로 변경
+                background-color: darken(#7788E8, 5%); 
                 border-color: darken(#7788E8, 5%);
             }
         }

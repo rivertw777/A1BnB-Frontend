@@ -1,3 +1,4 @@
+// 호스트 예약 정보 카드
 import React, { useState, useEffect } from 'react';
 import { Card, Button, notification } from 'antd';
 import { RightOutlined, FrownOutlined } from '@ant-design/icons';
@@ -14,6 +15,9 @@ export default function HostReservation({ reservation }) {
     // 예약 정보
     const { postId, checkInDate, checkOutDate, thumbnail, location, paymentAmount, guestName } = reservation;
 
+    // 본인 여부
+    const [sameMemberCheck, setSameMemberCheck] = useState({});
+
     // 게시물 상세 페이지 이동
     const goToPostDetail = () => {
         navigate(`/posts/${postId}`);
@@ -25,30 +29,32 @@ export default function HostReservation({ reservation }) {
         navigate("/chats", { state: { receiverName } })
     }
 
-    const [sameMemberCheck, setSameMemberCheck] = useState({});
-
-    // 동일 회원 여부 API 요청
+    // 본인 여부 API 요청
     useEffect(() => {
         const fetchSamePersonCheck = async () => {
             const apiUrl = `/api/users/same`;
             try {
               const ckeckSameMemberRequest = { memberName: guestName };
               const response = await axiosInstance.post(apiUrl, ckeckSameMemberRequest, {headers});
-              setSameMemberCheck(response.data);
+              setSameMemberCheck(response.data.isSameMember);
             } catch (error) {
-            
+                if (error.response) {
+                    const {status, data:{errorMessage}} = error.response
+                    notification.open({
+                      message: `${status} 에러`,
+                      description: errorMessage,
+                      icon: <FrownOutlined style={{ color: "#ff3333" }} />
+                    });
+                }
             }    
         };
         fetchSamePersonCheck();        
     }, []);
 
-    // 동일 회원 여부
-    const { isSameMember } = sameMemberCheck || {};
-
-    // 동일 회원 여부 확인
+    // 본인 여부 확인
     const checkSameMember = (event) => {
         event.stopPropagation(); 
-        if (isSameMember) {
+        if (sameMemberCheck) {
             notification.open({
                 message: '본인과의 대화는 불가합니다!',
                 icon: <FrownOutlined style={{ color: "#ff3333" }} />

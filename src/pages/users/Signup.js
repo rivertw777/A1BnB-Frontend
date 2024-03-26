@@ -2,15 +2,13 @@
 import React, { useState } from "react";
 import { Card, Form, Input, Button, notification } from "antd";
 import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
-import { useNavigate, useLocation} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api";
 import "./Signup.scss";
 
 export default function Signup() {
   const navigate = useNavigate();
-  const location = useLocation();
   const [fieldErrors, setFieldErrors] = useState({});
-
 
   // 회원가입 API 요청
   const onFinish = async (values) => {

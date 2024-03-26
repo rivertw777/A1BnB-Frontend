@@ -18,6 +18,8 @@ import {
   } from "@fortawesome/free-solid-svg-icons";
 
 const PropertyInfo = ({ propertyInfoData }) => {
+
+  // 게시물 정보
   const { maximumOccupancy, photoInfoList, location, caption } = propertyInfoData;
 
   const roomIcons = {
@@ -46,7 +48,7 @@ const PropertyInfo = ({ propertyInfoData }) => {
     'Television': faTv,
   };
 
-  // roomType과 amenityTypes를 카운트하는 함수
+  // roomType, amenityTypes 카운트
   const countItems = (items) => {
     const count = {};
     items.forEach(item => {
@@ -55,11 +57,10 @@ const PropertyInfo = ({ propertyInfoData }) => {
     return count;
   };
 
-  // roomType과 amenityTypes를 배열로 변환
+  // roomType, amenityTypes 배열 변환
   const roomTypes = photoInfoList ? photoInfoList.map(info => info.roomType) : [];
   const amenityTypes = photoInfoList ? [].concat(...photoInfoList.map(info => info.amenityTypes)) : [];
 
-  // roomType과 amenityTypes를 카운트
   const roomTypeCount = countItems(roomTypes);
   const amenityTypeCount = countItems(amenityTypes);
 

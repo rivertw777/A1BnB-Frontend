@@ -13,16 +13,20 @@ const { Title } = Typography;
 
 export default function PostDetail() {
   const navigate = useNavigate();
-
-  const { postId } = useParams();
-  const [postData, setPostData] = useState({});
-  const [postLikeCheck, setPostLikeCheck] = useState({});
-  const [sameMemberCheck, setSameMemberCheck] = useState({});
-
-  const [visible, setVisible] = useState(false);
-  const [modalImage, setModalImage] = useState(null);
   const { store: { jwtToken, isAuthenticated } } = useAppContext();
   const headers = { Authorization: `Bearer ${jwtToken}` };
+  const [visible, setVisible] = useState(false);
+  const [modalImage, setModalImage] = useState(null);
+  const { postId } = useParams();
+
+  // 게시물 정보
+  const [postData, setPostData] = useState({});
+
+  // 게시물 좋아요 여부
+  const [postLikeCheck, setPostLikeCheck] = useState({});
+
+  // 본인 여부
+  const [sameMemberCheck, setSameMemberCheck] = useState({});
 
   // 게시물 상세 API 요청
   useEffect(() => {
@@ -32,14 +36,21 @@ export default function PostDetail() {
         const response = await axiosInstance.get(apiUrl);
         setPostData(response.data);
       } catch (error) {
-
+        if (error.response) {
+          const {status, data:{errorMessage}} = error.response
+          notification.open({
+            message: `${status} 에러`,
+            description: errorMessage,
+            icon: <FrownOutlined style={{ color: "#ff3333" }} />
+          });
+        }
       }
     };
     fetchPostData();
   }, []);
-  // 게시물 상세 필드 
-  const { hostName, unavailableDates, location, pricePerNight, photoInfoList, maximumOccupancy, caption } = postData || {};
 
+  // 게시물 상세 정보
+  const { hostName, unavailableDates, location, pricePerNight, photoInfoList, maximumOccupancy, caption } = postData || {};
 
   // 회원 게시물 좋아요 여부 확인 API 요청
   const fetchPostLike = async () => {
@@ -47,9 +58,16 @@ export default function PostDetail() {
       const apiUrl = `/api/posts/${postId}/like/check`;
       try {
         const response = await axiosInstance.get(apiUrl, { headers });
-        setPostLikeCheck(response.data);
+        setPostLikeCheck(response.data.isLike);
       } catch (error) {
-        // 에러 처리 코드
+        if (error.response) {
+          const {status, data:{errorMessage}} = error.response
+          notification.open({
+            message: `${status} 에러`,
+            description: errorMessage,
+            icon: <FrownOutlined style={{ color: "#ff3333" }} />
+          });
+        }
       }
     } else {
       setPostLikeCheck({isLike:false});
@@ -58,9 +76,6 @@ export default function PostDetail() {
   useEffect(() => {
     fetchPostLike();
   }, [postId]);
-
-  // 좋아요 여부
-  const { isLike } = postLikeCheck || {};
 
   
   // 게시물 좋아요 API 요청
@@ -99,17 +114,22 @@ export default function PostDetail() {
     try {
       const ckeckSameMemberRequest = { memberName: hostName };
       const response = await axiosInstance.post(apiUrl, ckeckSameMemberRequest, {headers});
-      setSameMemberCheck(response.data);
+      setSameMemberCheck(response.data.isSameMember);
     } catch (error) {
-    
+      if (error.response) {
+        const {status, data:{errorMessage}} = error.response
+        notification.open({
+          message: `${status} 에러`,
+          description: errorMessage,
+          icon: <FrownOutlined style={{ color: "#ff3333" }} />
+        });
+      }
     }
   };
-  // 동일 회원 여부
-  const { isSameMember } = sameMemberCheck || {};
 
   // 동일 회원 여부 확인
   const checkSameMember = () => {
-    if (isSameMember) {
+    if (sameMemberCheck) {
         notification.open({
             message: '본인과의 대화는 불가합니다!',
             icon: <FrownOutlined style={{ color: "#ff3333" }} />
@@ -129,10 +149,10 @@ export default function PostDetail() {
     setVisible(false);
   }
 
-  // Booingform을 위한 데이터
+  // Booingform 정보
   let bookFormData = {};
 
-  // PropertyInfo를 위한 데이터
+  // PropertyInfo 정보
   let propertyInfoData = {};
   if (postData) {
     bookFormData = { postId, unavailableDates, pricePerNight, maximumOccupancy };
@@ -163,7 +183,7 @@ export default function PostDetail() {
               style={{ fontSize: '30px', marginRight:'20px', color: '#7788E8'}}
               onClick={checkSameMember}
             />  
-            {isLike ? (
+            {postLikeCheck ? (
               <HeartTwoTone
                 twoToneColor="#eb2f96"
                 style={{ fontSize: '30px', marginRight: '20px' }}

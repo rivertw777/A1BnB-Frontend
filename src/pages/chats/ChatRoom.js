@@ -1,16 +1,18 @@
+// 채팅방 페이지
 import React, { useState, useEffect, useRef } from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import { useNavigate } from 'react-router-dom';
-import { LeftOutlined } from '@ant-design/icons'; // Ant Design 아이콘 import
+import { LeftOutlined } from '@ant-design/icons'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
 import { useAppContext } from "../../store";
 import { axiosInstance } from "../../api";
 import { API_HOST } from "../../Constants";
-
-import "./ChatRoom.scss"; // SCSS 파일 import
+import { notification } from "antd";
+import { FrownOutlined } from "@ant-design/icons";
+import "./ChatRoom.scss"; 
 
 const ChatRoom = () => {
   const [stompClient, setStompClient] = useState(null);
@@ -24,31 +26,39 @@ const ChatRoom = () => {
 
   // 수신자 이름
   const { receiverName } = location.state || {};
-  const [roomInfo, setRoomInfo] = useState({});
 
-  const findChatRoomRequest = { receiverName: receiverName };
+  // 채팅방 정보
+  const [roomInfo, setRoomInfo] = useState({});
+  const { roomId, messageInfoList } = roomInfo || {};
 
   // 수신자 이름으로 채팅방 조회 API 요청
   useEffect(() => {
     const fetchRoomInfo = async () => {
       const apiUrl = "/api/chats";
       try {
+        const findChatRoomRequest = { receiverName: receiverName };
         const response = await axiosInstance.post(apiUrl, findChatRoomRequest, {headers});
         setRoomInfo(response.data);
       } catch (error) {
-        // 오류 처리
+        if (error.response) {
+          const {status, data:{errorMessage}} = error.response
+          notification.open({
+            message: `${status} 에러`,
+            description: errorMessage,
+            icon: <FrownOutlined style={{ color: "#ff3333" }} />
+          });
+        }
       }
     };
     fetchRoomInfo();
   }, []);
 
-  const { roomId, messageInfoList } = roomInfo || {};
-
+  // 아래로 스크롤
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // 채팅방 정보 조회 후 초기 메시지 리스트 load
+  // 메시지 리스트 불러오기
   useEffect(() => {
     if (messageInfoList) { 
       const initialMessages = messageInfoList.map(info => ({
@@ -74,7 +84,7 @@ const ChatRoom = () => {
           const messageTime = new Date();
           const timestamp = messageTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
           
-          const isUserMessage = newMessage.receiverName === receiverName; // 현재 사용자의 이름 또는 식별자와 비교
+          const isUserMessage = newMessage.receiverName === receiverName; // 수신자 이름 같으면 본인 메시지
 
           setMessages(messages => [...messages, { ...newMessage, timestamp, isUserMessage }]);
         });
@@ -92,6 +102,7 @@ const ChatRoom = () => {
     scrollToBottom();
   }, [messages]);
 
+  // 메시지 전송
   const sendMessage = () => {
     if (message.trim() !== '') {
       stompClient.send("/publish/messages", {}, JSON.stringify({

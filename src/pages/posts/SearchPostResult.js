@@ -1,7 +1,7 @@
 // 게시물 검색 결과 페이지
-import React, { useState } from "react";
+import React from "react";
 import PostList from "../../components/posts/PostList";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 function SearchPostResult() {
     const apiUrl = "/api/posts/search";

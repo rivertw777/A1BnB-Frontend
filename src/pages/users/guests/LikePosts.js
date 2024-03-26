@@ -1,14 +1,20 @@
+// 좋아요 게시물 정보 페이지
 import React, { useState, useEffect } from 'react';
 import { Row, Col } from 'antd'; 
 import { axiosInstance } from "../../../api";
 import { useAppContext } from "../../../store";
 import LikePost from "../../../components/users/guests/LikePost";
+import { notification } from "antd";
+import { FrownOutlined } from "@ant-design/icons";
 
 const LikePosts = () => {
     const { store: { jwtToken } } = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
+
+    // 게시물 정보
     const [posts, setPosts] = useState([]);
 
+    // 좋아요 게시물 정보 조회 API 요청
     useEffect(() => {
         const fetchPosts = async () => {
             try {
@@ -16,8 +22,14 @@ const LikePosts = () => {
                 const response = await axiosInstance.get(apiUrl, {headers});
                 setPosts(response.data);
             } catch (error) {
-                // 오류 처리
-                console.error("예약 정보 조회에 실패했습니다.", error);
+                if (error.response) {
+                    const {status, data:{errorMessage}} = error.response
+                    notification.open({
+                      message: `${status} 에러`,
+                      description: errorMessage,
+                      icon: <FrownOutlined style={{ color: "#ff3333" }} />
+                    });
+                }
             }
         };
         

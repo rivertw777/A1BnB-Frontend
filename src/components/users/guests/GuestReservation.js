@@ -1,3 +1,4 @@
+// 게스트 예약 정보 카드
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Modal, notification } from 'antd';
 import { RightOutlined, FrownOutlined } from '@ant-design/icons';
@@ -9,21 +10,31 @@ import moment from 'moment';
 export default function GuestReservation({ reservation }) {
     const { store: { jwtToken } } = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
-    const navigate = useNavigate();
-    
+    const navigate = useNavigate();   
     const [isModalVisible, setIsModalVisible] = useState(false);
+
+    // 게스트 예약 정보
     const { bookId, postId, checkInDate, checkOutDate, thumbnail, location, paymentAmount, hostName } = reservation;
+
+    // 본인 여부
+    const [sameMemberCheck, setSameMemberCheck] = useState({});
 
     // 게시물 상세 페이지 이동
     const goToPostDetail = () => {
         navigate(`/posts/${postId}`);
     };
 
+    // 예약 취소 모달
     const showCancelModal = (event) => {
         event.stopPropagation(); 
         setIsModalVisible(true);
     };
 
+    const handleClose = () => {
+        setIsModalVisible(false);
+    };
+
+    // 게시물 예약 삭제 요청 API 호출
     const handleCancel = () => {
         axiosInstance.delete(`/api/posts/${postId}/book/${bookId}`, { headers })
             .then(response => {
@@ -31,12 +42,15 @@ export default function GuestReservation({ reservation }) {
                 window.location.reload(); // 페이지 새로고침 
             })
             .catch(error => {
-
+                if (error.response) {
+                    const {status, data:{errorMessage}} = error.response
+                    notification.open({
+                      message: `${status} 에러`,
+                      description: errorMessage,
+                      icon: <FrownOutlined style={{ color: "#ff3333" }} />
+                    });
+                  }
             });
-    };
-
-    const handleClose = () => {
-        setIsModalVisible(false);
     };
 
     // 채팅 페이지 이동
@@ -45,16 +59,14 @@ export default function GuestReservation({ reservation }) {
         navigate("/chats", { state: { receiverName } })
     }
 
-    const [sameMemberCheck, setSameMemberCheck] = useState({});
-
-    // 동일 회원 여부 API 요청
+    // 본인 여부 API 요청
     useEffect(() => {
         const fetchSamePersonCheck = async () => {
             const apiUrl = `/api/users/same`;
             try {
               const ckeckSameMemberRequest = { memberName: hostName };
               const response = await axiosInstance.post(apiUrl, ckeckSameMemberRequest, {headers});
-              setSameMemberCheck(response.data);
+              setSameMemberCheck(response.data.isSameMember);
             } catch (error) {
             
             }    
@@ -62,13 +74,10 @@ export default function GuestReservation({ reservation }) {
         fetchSamePersonCheck();        
     }, []);
 
-    // 동일 회원 여부
-    const { isSameMember } = sameMemberCheck || {};
-
-    // 동일 회원 여부 확인
+    // 본인 여부 확인
     const checkSameMember = (event) => {
         event.stopPropagation(); 
-        if (isSameMember) {
+        if (sameMemberCheck) {
             notification.open({
                 message: '본인과의 대화는 불가합니다!',
                 icon: <FrownOutlined style={{ color: "#ff3333" }} />
@@ -112,8 +121,8 @@ export default function GuestReservation({ reservation }) {
                             fontSize: '18px', 
                             width: '90px', 
                             height: '45px', 
-                            display: 'flex', // Flexbox 레이아웃을 사용합니다.
-                            justifyContent: 'center', // 수평 방향에서 중앙 정렬합니다.
+                            display: 'flex', 
+                            justifyContent: 'center', 
                             alignItems: 'center',
                             marginRight: '80px'
                         }}
@@ -129,8 +138,8 @@ export default function GuestReservation({ reservation }) {
                             fontSize: '18px', 
                             width: '90px', 
                             height: '45px', 
-                            display: 'flex', // Flexbox 레이아웃을 사용합니다.
-                            justifyContent: 'center', // 수평 방향에서 중앙 정렬합니다.
+                            display: 'flex', 
+                            justifyContent: 'center', 
                             alignItems: 'center',
                         }}
                     >

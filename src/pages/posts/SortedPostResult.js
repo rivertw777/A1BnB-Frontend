@@ -1,5 +1,5 @@
 // 게시물 정렬 페이지
-import React, { useState } from "react";
+import React from "react";
 import PostList from "../../components/posts/PostList";
 
 function SortedPostResult() {

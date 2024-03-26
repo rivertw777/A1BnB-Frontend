@@ -1,10 +1,9 @@
 // 게시물 등록 폼
 import React, { useState } from "react";
-import { Button, Form, Input, DatePicker, InputNumber, notification, Select } from "antd";
-import { FrownOutlined, PlusOutlined, SmileOutlined } from "@ant-design/icons";
+import { Button, Form, Input, InputNumber, notification, Select } from "antd";
+import { FrownOutlined, SmileOutlined } from "@ant-design/icons";
 import { useAppContext } from "../../store";
-import { parseErrorMessages } from "../../utils/forms";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api";
 
 export default function SubmitPostForm({ photoIdList }) {
@@ -15,7 +14,7 @@ export default function SubmitPostForm({ photoIdList }) {
 
   const navigate = useNavigate();
 
-  const [fieldErrors, setFieldErrors] = useState({});
+  const [fieldErrors] = useState({});
 
   const locationList = [
     "서울", "부산", "속초", "강릉", "전주", 

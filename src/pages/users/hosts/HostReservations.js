@@ -1,14 +1,20 @@
+// 호스트 예약 정보 페이지
 import React, { useState, useEffect } from 'react';
 import { Row, Col } from 'antd'; 
 import { axiosInstance } from "../../../api";
 import { useAppContext } from "../../../store";
 import HostReservation from "../../../components/users/hosts/HostReservation";
+import { notification } from "antd";
+import { FrownOutlined } from "@ant-design/icons";
 
 const HostReservations = () => {
     const { store: { jwtToken } } = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
+
+    // 예약 정보
     const [reservations, setReservations] = useState([]);
 
+    // 호스트 예약 정보 조회 API 요청
     useEffect(() => {
         const fetchReservations = async () => {
             try {
@@ -16,8 +22,14 @@ const HostReservations = () => {
                 const response = await axiosInstance.get(apiUrl, {headers});
                 setReservations(response.data);
             } catch (error) {
-                // 오류 처리
-                console.error("예약 정보 조회에 실패했습니다.", error);
+                if (error.response) {
+                    const {status, data:{errorMessage}} = error.response
+                    notification.open({
+                      message: `${status} 에러`,
+                      description: errorMessage,
+                      icon: <FrownOutlined style={{ color: "#ff3333" }} />
+                    });
+                }
             }
         };
         

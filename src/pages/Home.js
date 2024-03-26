@@ -1,15 +1,15 @@
 // 홈 페이지
 import React, { useState } from "react";
 import { Button, Modal, Dropdown, Menu, Typography } from "antd";
-import { FilterOutlined, UnorderedListOutlined, SearchOutlined } from "@ant-design/icons";
-import { useLocation, useNavigate } from "react-router-dom";
+import { UnorderedListOutlined, SearchOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 import PostList from "../components/posts/PostList";
 import SearchForm from "../components/posts/SearchPostForm";
 
 function Home() {
   const { Title } = Typography;
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = useState("최신순");
+  const [selectedOption ] = useState("최신순");
   
   const handleOptionChange = ({ key }) => {
     if (key === "인기순") {

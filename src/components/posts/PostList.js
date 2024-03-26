@@ -1,21 +1,22 @@
 // 게시물 리스트
-import { Button, Pagination, Row, Col, Alert } from "antd";
+import { Pagination, Row, Col } from "antd";
 import React, { useEffect, useState } from "react";
-import { useAxios, axiosInstance } from "../../api";
+import { axiosInstance } from "../../api";
 import Post from "./Post";
 
 function PostList({ apiUrl, condition }) {
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
   const pageSize = 8; // 페이지 크기
-  const [postPage, setPostPage] = useState(null);
 
+  // 게시물 정보 
+  const [postPage, setPostPage] = useState(null);
 
   // 조건에 따른 게시물 조회 API 호출
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         let data;
-        // 조건 조회
+        // 검색, 정렬 페이지 조회
         if (condition) {
           const pageConfig = {
             params: {
@@ -25,7 +26,7 @@ function PostList({ apiUrl, condition }) {
           };
           const response = await axiosInstance.post(apiUrl, condition, pageConfig);
           data = response.data;
-        // 일반 조회 
+        // 홈 페이지 조회
         } else {
           const pageConfig = {
             params: {
@@ -46,7 +47,7 @@ function PostList({ apiUrl, condition }) {
     fetchPosts();
   }, [apiUrl, condition, currentPage]);
 
-  // 페이지 변경 시 해당 페이지의 데이터를 가져오는 함수
+  // 페이지 변경 시 페이지 데이터 조회 요청
   const handlePageChange = (page, pageSize) => {
     setCurrentPage(page);
   };
@@ -66,7 +67,7 @@ function PostList({ apiUrl, condition }) {
           total={postPage?.totalElements}
           onChange={handlePageChange}
           pageSize={pageSize}
-          showSizeChanger={false} // 페이지 크기 변경 기능 끄기
+          showSizeChanger={false} 
         />
       </div>
     </div>

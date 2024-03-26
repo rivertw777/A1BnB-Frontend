@@ -1,13 +1,17 @@
+// 좋아요 게시물 카드
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Modal } from 'antd';
-import { HeartTwoTone, RightOutlined } from '@ant-design/icons';
+import { Card, notification } from 'antd';
+import { HeartTwoTone, RightOutlined, FrownOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from "../../../api";
 
 export default function LikePost({ post }) {
     const navigate = useNavigate();
 
+    // 게시물 정보
     const { postId, hostName, thumbnail, location, pricePerNight } = post;
+
+    // 좋아요 수 
     const [likeCount, setLikeCount] = useState(0);
 
     // 게시물 좋아요 수 API 호출
@@ -17,12 +21,20 @@ export default function LikePost({ post }) {
                 const response = await axiosInstance.get(`/api/posts/${postId}/like/count`);
                 setLikeCount(response.data.likeCount);
             } catch (error) {
-
+                if (error.response) {
+                    const {status, data:{errorMessage}} = error.response
+                    notification.open({
+                      message: `${status} 에러`,
+                      description: errorMessage,
+                      icon: <FrownOutlined style={{ color: "#ff3333" }} />
+                    });
+                }
             }
         };
         fetchLikeCount();
     }, [postId]);
 
+    // 게시물 상세 페이지 이동
     const goToPostDetail = () => {
         navigate(`/posts/${postId}`);
     }

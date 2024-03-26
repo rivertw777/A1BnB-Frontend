@@ -1,17 +1,17 @@
-// 게스트 정보 컴포넌트
+// 게스트 정보 
 import React, { useState, useEffect } from 'react';
-import { HeartOutlined, CalendarOutlined, MessageOutlined } from "@ant-design/icons";
+import { Card, Button, notification } from "antd";
+import { HeartOutlined, CalendarOutlined, MessageOutlined, FrownOutlined } from "@ant-design/icons";
 import { axiosInstance } from "../../../api";
 import { useAppContext } from "../../../store";
 import { useNavigate } from "react-router-dom";
-
-import { Button, Card } from 'antd';
 
 export default function GuestInfo() {
     const { store: { jwtToken } } = useAppContext();
     const headers = { Authorization: `Bearer ${jwtToken}` };
     const navigate = useNavigate();
 
+    // 체크인 날짜
     const [checkInDate, setCheckInDate] = useState(null);
 
     // 가장 가까운 체크인 날짜 조회 API 요청
@@ -28,7 +28,14 @@ export default function GuestInfo() {
                     setCheckInDate(null);
                 }
             } catch (error) {
-                // 오류 처리
+                if (error.response) {
+                    const {status, data:{errorMessage}} = error.response
+                    notification.open({
+                      message: `${status} 에러`,
+                      description: errorMessage,
+                      icon: <FrownOutlined style={{ color: "#ff3333" }} />
+                    });
+                }
             }
         };
         fetchCheckInDateData();

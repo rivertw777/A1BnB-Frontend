@@ -4,16 +4,13 @@ import { useAppContext, deleteToken } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { notification } from "antd";
 import { MehOutlined } from "@ant-design/icons";
-import { useAxios, axiosInstance } from "../../api";
+import { useAxios } from "../../api";
 
 export default function Logout() {
   const { dispatch } = useAppContext();
   const navigate = useNavigate();
 
-  const {
-    store: { jwtToken }
-  } = useAppContext();
-
+  const { store: { jwtToken } } = useAppContext();
   const headers = { Authorization: `Bearer ${jwtToken}` };
 
   // 로그아웃 API 요청

@@ -9,15 +9,16 @@ import "./SubmitPost.scss";
 export default function SubmitPost() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  // 사진 Id 리스트
   const [photoIdList] = useState(location.state.photoIdList || []);
 
   const isFirstRender = useRef(true);
 
-  // 뒤로가기로 페이지 접근 방지
+  // 뒤로가기 페이지 접근 방지
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      // InferenceResult 페이지에서 왔는지 확인하고, 그렇지 않다면 UploadPhoto 페이지로 리다이렉트합니다.
       if(location.state?.from !== 'InferResult'){
         notification.open({
             message: "사진을 다시 등록해주세요.",
@@ -25,7 +26,6 @@ export default function SubmitPost() {
           });
         navigate('/posts/upload', { replace: true });
       } else {
-        // InferenceResult 페이지에서 온 경우, state를 초기화합니다.
         navigate(location.pathname, { state: { ...location.state, from: null }, replace: true });
       }
     }
