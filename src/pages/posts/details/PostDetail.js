@@ -55,7 +55,7 @@ export default function PostDetail() {
   // 회원 게시물 좋아요 여부 확인 API 요청
   const fetchPostLike = async () => {
     if (isAuthenticated) {
-      const apiUrl = `/api/posts/${postId}/like/check`;
+      const apiUrl = `/api/posts/${postId}/like`;
       try {
         const response = await axiosInstance.get(apiUrl, { headers });
         setPostLikeCheck(response.data.isLike);
@@ -70,7 +70,7 @@ export default function PostDetail() {
         }
       }
     } else {
-      setPostLikeCheck({isLike:false});
+      setPostLikeCheck(false);
     }
   };
   useEffect(() => {
