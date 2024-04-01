@@ -34,7 +34,7 @@ const ChatRoom = () => {
   // 수신자 이름으로 채팅방 조회 API 요청
   useEffect(() => {
     const fetchRoomInfo = async () => {
-      const apiUrl = "/api/chats";
+      const apiUrl = "/api/users/chats";
       try {
         const findChatRoomRequest = { receiverName: receiverName };
         const response = await axiosInstance.post(apiUrl, findChatRoomRequest, {headers});

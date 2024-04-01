@@ -19,7 +19,7 @@ const MyChatRooms = () => {
   // 내 채팅방 정보 조회 API 요청
   useEffect(() => {
     const fetchChatRooms = async () => {
-      const apiUrl = `/api/chats`;
+      const apiUrl = `/api/users/chats`;
       try {
         const response = await axiosInstance.get(apiUrl, { headers });
         setChatRooms(response.data);
