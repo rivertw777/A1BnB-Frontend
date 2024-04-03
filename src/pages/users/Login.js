@@ -83,7 +83,6 @@ export default function Login() {
             name="name"
             rules={[
               { required: true, message: "Please input your username!" },
-              { min: 5, message: "5글자 입력해주세요." }
             ]}
             hasFeedback
             {...fieldErrors.username}
