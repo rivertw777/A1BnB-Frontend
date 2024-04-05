@@ -5,9 +5,9 @@ COPY package*.json .
 RUN yarn add react
 
 COPY . .
-RUN npm run build
+RUN yarn build
 
-# Deploy
+# DEPLOY
 FROM nginx:latest
 RUN rm /etc/nginx/conf.d/default.conf
 RUN rm -rf /etc/nginx/conf.d/*
