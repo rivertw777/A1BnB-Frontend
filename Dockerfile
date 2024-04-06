@@ -3,7 +3,6 @@ FROM node:18.16.1-alpine AS builder
 WORKDIR /app
 COPY package*.json .
 RUN yarn add react
-
 COPY . .
 RUN yarn build
 
